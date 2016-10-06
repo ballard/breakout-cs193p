@@ -8,20 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		2CA355841DA5AA89000D8AB9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA355831DA5AA89000D8AB9 /* AppDelegate.swift */; };
-		2CA355861DA5AA89000D8AB9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA355851DA5AA89000D8AB9 /* ViewController.swift */; };
 		2CA355891DA5AA89000D8AB9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2CA355871DA5AA89000D8AB9 /* Main.storyboard */; };
 		2CA3558B1DA5AA89000D8AB9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2CA3558A1DA5AA89000D8AB9 /* Assets.xcassets */; };
 		2CA3558E1DA5AA89000D8AB9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2CA3558C1DA5AA89000D8AB9 /* LaunchScreen.storyboard */; };
+		2CE3630A1DA6F8F600ECDCE8 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE363091DA6F8F600ECDCE8 /* GameViewController.swift */; };
+		2CE3630C1DA6F94E00ECDCE8 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE3630B1DA6F94E00ECDCE8 /* SettingsTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		2CA355801DA5AA89000D8AB9 /* breakout-cs193p.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "breakout-cs193p.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CA355831DA5AA89000D8AB9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		2CA355851DA5AA89000D8AB9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		2CA355881DA5AA89000D8AB9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2CA3558A1DA5AA89000D8AB9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2CA3558D1DA5AA89000D8AB9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2CA3558F1DA5AA89000D8AB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2CE363091DA6F8F600ECDCE8 /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		2CE3630B1DA6F94E00ECDCE8 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,9 +56,10 @@
 		2CA355821DA5AA89000D8AB9 /* breakout-cs193p */ = {
 			isa = PBXGroup;
 			children = (
-				2CA355951DA5AAAF000D8AB9 /* Supporting Files */,
-				2CA355851DA5AA89000D8AB9 /* ViewController.swift */,
+				2CE363091DA6F8F600ECDCE8 /* GameViewController.swift */,
 				2CA355871DA5AA89000D8AB9 /* Main.storyboard */,
+				2CA355951DA5AAAF000D8AB9 /* Supporting Files */,
+				2CE3630B1DA6F94E00ECDCE8 /* SettingsTableViewController.swift */,
 			);
 			path = "breakout-cs193p";
 			sourceTree = "<group>";
@@ -144,8 +147,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2CA355861DA5AA89000D8AB9 /* ViewController.swift in Sources */,
+				2CE3630A1DA6F8F600ECDCE8 /* GameViewController.swift in Sources */,
 				2CA355841DA5AA89000D8AB9 /* AppDelegate.swift in Sources */,
+				2CE3630C1DA6F94E00ECDCE8 /* SettingsTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,6 +311,7 @@
 				2CA355941DA5AA89000D8AB9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
