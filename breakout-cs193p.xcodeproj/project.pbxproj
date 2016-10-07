@@ -13,6 +13,9 @@
 		2CA3558E1DA5AA89000D8AB9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2CA3558C1DA5AA89000D8AB9 /* LaunchScreen.storyboard */; };
 		2CE3630A1DA6F8F600ECDCE8 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE363091DA6F8F600ECDCE8 /* GameViewController.swift */; };
 		2CE3630C1DA6F94E00ECDCE8 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE3630B1DA6F94E00ECDCE8 /* SettingsTableViewController.swift */; };
+		2CE3630E1DA8437C00ECDCE8 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE3630D1DA8437C00ECDCE8 /* GameView.swift */; };
+		2CE363101DA84FD300ECDCE8 /* BallBehavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE3630F1DA84FD300ECDCE8 /* BallBehavior.swift */; };
+		2CE363121DA8545F00ECDCE8 /* UIKit Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE363111DA8545F00ECDCE8 /* UIKit Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +27,9 @@
 		2CA3558F1DA5AA89000D8AB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2CE363091DA6F8F600ECDCE8 /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		2CE3630B1DA6F94E00ECDCE8 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
+		2CE3630D1DA8437C00ECDCE8 /* GameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
+		2CE3630F1DA84FD300ECDCE8 /* BallBehavior.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BallBehavior.swift; sourceTree = "<group>"; };
+		2CE363111DA8545F00ECDCE8 /* UIKit Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIKit Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +66,9 @@
 				2CA355871DA5AA89000D8AB9 /* Main.storyboard */,
 				2CA355951DA5AAAF000D8AB9 /* Supporting Files */,
 				2CE3630B1DA6F94E00ECDCE8 /* SettingsTableViewController.swift */,
+				2CE3630D1DA8437C00ECDCE8 /* GameView.swift */,
+				2CE3630F1DA84FD300ECDCE8 /* BallBehavior.swift */,
+				2CE363111DA8545F00ECDCE8 /* UIKit Extensions.swift */,
 			);
 			path = "breakout-cs193p";
 			sourceTree = "<group>";
@@ -147,9 +156,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2CE363101DA84FD300ECDCE8 /* BallBehavior.swift in Sources */,
 				2CE3630A1DA6F8F600ECDCE8 /* GameViewController.swift in Sources */,
 				2CA355841DA5AA89000D8AB9 /* AppDelegate.swift in Sources */,
+				2CE3630E1DA8437C00ECDCE8 /* GameView.swift in Sources */,
 				2CE3630C1DA6F94E00ECDCE8 /* SettingsTableViewController.swift in Sources */,
+				2CE363121DA8545F00ECDCE8 /* UIKit Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
