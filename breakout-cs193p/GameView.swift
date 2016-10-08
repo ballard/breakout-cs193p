@@ -10,6 +10,32 @@ import UIKit
 
 class GameView: UIView, UIDynamicAnimatorDelegate {
     
+    var countLabel : UILabel?
+    let countLabelScale = 10
+    
+    private var countLabelSize : CGSize {
+        let size = bounds.size.width / CGFloat(countLabelScale)
+        return CGSize(width: size, height: size)
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if countLabel == nil {
+            addCountLabel()
+        }
+    }
+    
+    func addCountLabel(){
+        var frame = CGRect(origin: CGPoint.zero, size: countLabelSize)
+        frame.origin.x = bounds.size.width - frame.width
+        let label = UILabel(frame: frame)
+        addSubview(label)
+        countLabel = label
+        ballBehavior.recordBallHits = ({ [weak weakSelf = self] (inputValue: Int) -> Void in
+            weakSelf?.countLabel?.text = String(inputValue)
+            })
+    }
+    
     private lazy var animator : UIDynamicAnimator = {[unowned self] in
         let animator = UIDynamicAnimator(referenceView: self)
         animator.delegate = self
@@ -58,5 +84,4 @@ class GameView: UIView, UIDynamicAnimatorDelegate {
         }
         animator.addBehavior(pushBehavior)
     }
-    
 }

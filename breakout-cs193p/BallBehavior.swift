@@ -8,10 +8,15 @@
 
 import UIKit
 
-class BallBehavior: UIDynamicBehavior {
+class BallBehavior: UIDynamicBehavior, UICollisionBehaviorDelegate {
+    
+    var ballHits = 0
+    
+    var recordBallHits : ((Int) -> Void)?
+    
     let gravity = UIGravityBehavior() //better some public API
     
-    private let collider : UICollisionBehavior = {
+    let collider : UICollisionBehavior = {
         let collider = UICollisionBehavior()
         collider.translatesReferenceBoundsIntoBoundary = true
         return collider
@@ -19,7 +24,7 @@ class BallBehavior: UIDynamicBehavior {
     
     private let itemBehavior : UIDynamicItemBehavior = {
         let itemBehavior = UIDynamicItemBehavior()
-        itemBehavior.elasticity = 0.85
+        itemBehavior.elasticity = 1
 //        itemBehavior.allowsRotation = false
         return itemBehavior
     }()
@@ -30,19 +35,27 @@ class BallBehavior: UIDynamicBehavior {
         
     }
     
+    func collisionBehavior(_ behavior: UICollisionBehavior,
+                           beganContactFor item: UIDynamicItem,
+                           withBoundaryIdentifier identifier: NSCopying?,
+                           at p: CGPoint) {
+        ballHits += 1
+        recordBallHits?(ballHits)
+        print("hit")
+    }
     
     override init(){
         super.init()
         addChildBehavior(gravity)
         addChildBehavior(collider)
         addChildBehavior(itemBehavior)
+        collider.collisionDelegate = self
     }
     
     func addItem(item : UIDynamicItem) {
         gravity.addItem(item)
         collider.addItem(item)
         itemBehavior.addItem(item)
-        
     }
     
     func removeItem(item : UIDynamicItem){
