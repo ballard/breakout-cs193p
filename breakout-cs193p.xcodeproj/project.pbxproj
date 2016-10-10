@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C8991361DAAC90600D688CD /* NamedBezierPathsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8991351DAAC90600D688CD /* NamedBezierPathsView.swift */; };
 		2CA355841DA5AA89000D8AB9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA355831DA5AA89000D8AB9 /* AppDelegate.swift */; };
 		2CA355891DA5AA89000D8AB9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2CA355871DA5AA89000D8AB9 /* Main.storyboard */; };
 		2CA3558B1DA5AA89000D8AB9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2CA3558A1DA5AA89000D8AB9 /* Assets.xcassets */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2C8991351DAAC90600D688CD /* NamedBezierPathsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NamedBezierPathsView.swift; sourceTree = "<group>"; };
 		2CA355801DA5AA89000D8AB9 /* breakout-cs193p.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "breakout-cs193p.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CA355831DA5AA89000D8AB9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2CA355881DA5AA89000D8AB9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 				2CE3630B1DA6F94E00ECDCE8 /* SettingsTableViewController.swift */,
 				2CE3630D1DA8437C00ECDCE8 /* GameView.swift */,
 				2CE3630F1DA84FD300ECDCE8 /* BallBehavior.swift */,
+				2C8991351DAAC90600D688CD /* NamedBezierPathsView.swift */,
 				2CE363111DA8545F00ECDCE8 /* UIKit Extensions.swift */,
 			);
 			path = "breakout-cs193p";
@@ -157,6 +160,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2CE363101DA84FD300ECDCE8 /* BallBehavior.swift in Sources */,
+				2C8991361DAAC90600D688CD /* NamedBezierPathsView.swift in Sources */,
 				2CE3630A1DA6F8F600ECDCE8 /* GameViewController.swift in Sources */,
 				2CA355841DA5AA89000D8AB9 /* AppDelegate.swift in Sources */,
 				2CE3630E1DA8437C00ECDCE8 /* GameView.swift in Sources */,

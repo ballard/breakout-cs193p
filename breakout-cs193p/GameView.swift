@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GameView: UIView, UIDynamicAnimatorDelegate {
+class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
     
     var countLabel : UILabel?
     let countLabelScale = 10
@@ -18,11 +18,31 @@ class GameView: UIView, UIDynamicAnimatorDelegate {
         return CGSize(width: size, height: size)
     }
     
+    private struct PathNames {
+        static let Plate = "Plate"
+    }
+    
+    private var plateSize : CGSize {
+        let size = ballSize.width * 3
+        return CGSize(width: size, height: ballSize.height)
+    }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         if countLabel == nil {
             addCountLabel()
         }
+        
+    }
+    
+    func movePlate(toXPoint xPoint: CGFloat) {
+        if bezierPaths[PathNames.Plate] != nil {
+            bezierPaths[PathNames.Plate] = nil
+        }
+        
+        let path = UIBezierPath(ovalIn: CGRect(center: CGPoint(x: xPoint, y:bounds.maxY - plateSize.height), size: plateSize))
+        ballBehavior.addBarrier(path: path, named: PathNames.Plate)
+        bezierPaths[PathNames.Plate] = path
     }
     
     func addCountLabel(){
@@ -83,5 +103,15 @@ class GameView: UIView, UIDynamicAnimatorDelegate {
             
         }
         animator.addBehavior(pushBehavior)
+    }
+    
+    private var plate : UIView?
+    
+    func addPlate() {
+        
+    }
+    
+    func grabPlate(recognizer: UIPanGestureRecognizer) {
+//        function body
     }
 }

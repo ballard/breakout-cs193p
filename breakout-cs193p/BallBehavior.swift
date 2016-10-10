@@ -32,8 +32,9 @@ class BallBehavior: UIDynamicBehavior, UICollisionBehaviorDelegate {
     func addBarrier(path: UIBezierPath, named name: String){
         collider.removeBoundary(withIdentifier: name as NSCopying)
         collider.addBoundary(withIdentifier: name as NSCopying, for: path)
-        
     }
+    
+    
     
     func collisionBehavior(_ behavior: UICollisionBehavior,
                            beganContactFor item: UIDynamicItem,
