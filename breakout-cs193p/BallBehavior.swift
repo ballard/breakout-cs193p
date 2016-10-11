@@ -13,6 +13,7 @@ class BallBehavior: UIDynamicBehavior, UICollisionBehaviorDelegate {
     var ballHits = 0
     
     var recordBallHits : ((Int) -> Void)?
+    var removeBreak: ((String) -> Void)?
     
     let gravity = UIGravityBehavior() //better some public API
     
@@ -34,15 +35,17 @@ class BallBehavior: UIDynamicBehavior, UICollisionBehaviorDelegate {
         collider.addBoundary(withIdentifier: name as NSCopying, for: path)
     }
     
-    
-    
     func collisionBehavior(_ behavior: UICollisionBehavior,
                            beganContactFor item: UIDynamicItem,
                            withBoundaryIdentifier identifier: NSCopying?,
                            at p: CGPoint) {
-        ballHits += 1
-        recordBallHits?(ballHits)
-        print("hit")
+        if let boundary = identifier as? String, boundary.hasPrefix("Break") {
+            ballHits += 1
+            recordBallHits?(ballHits)
+            removeBreak?(boundary)
+            collider.removeBoundary(withIdentifier: boundary as NSCopying)
+            print("break hitted")
+        }
     }
     
     override init(){
@@ -64,5 +67,4 @@ class BallBehavior: UIDynamicBehavior, UICollisionBehaviorDelegate {
         collider.removeItem(item)
         itemBehavior.removeItem(item)
     }
-
 }

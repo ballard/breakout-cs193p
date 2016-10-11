@@ -20,6 +20,7 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
     
     private struct PathNames {
         static let Plate = "Plate"
+        static let Break = "Break"
     }
     
     private var plateSize : CGSize {
@@ -32,7 +33,6 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         if countLabel == nil {
             addCountLabel()
         }
-        
     }
     
     func movePlate(toXPoint xPoint: CGFloat) {
@@ -43,6 +43,24 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         let path = UIBezierPath(ovalIn: CGRect(center: CGPoint(x: xPoint, y:bounds.maxY - plateSize.height), size: plateSize))
         ballBehavior.addBarrier(path: path, named: PathNames.Plate)
         bezierPaths[PathNames.Plate] = path
+    }
+    
+    func addBreaks() {
+        if bezierPaths[PathNames.Break] != nil {
+            bezierPaths[PathNames.Break] = nil
+        }
+        let breakWidth = ballSize.width * 2
+        let breakHeight = ballSize.height
+        
+        for i in 1...5 {
+            let path = UIBezierPath(rect: CGRect(center: CGPoint(x: ((breakWidth) * CGFloat(i)) - breakWidth/2, y: CGPoint.zero.y + breakHeight/2), size: CGSize(width: breakWidth, height: breakHeight)))
+            let breakName = "Break" + String(i)
+            ballBehavior.addBarrier(path: path, named: breakName)
+            bezierPaths[breakName] = path
+        }
+        ballBehavior.removeBreak = ({[weak weakSelf = self] (deletingBreak: String) -> Void in
+            weakSelf?.bezierPaths[deletingBreak] = nil
+            })
     }
     
     func addCountLabel(){
@@ -86,6 +104,7 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
     func addBall (){
         var frame = CGRect(origin: CGPoint.zero, size: ballSize)
         frame.origin.x = (bounds.size.width / 2) - (frame.width / 2)
+        frame.origin.y = bounds.midY
         let ball = UIView(frame: frame)
         ball.layer.cornerRadius = ball.frame.width / 2
         ball.backgroundColor = UIColor.red
@@ -103,15 +122,5 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
             
         }
         animator.addBehavior(pushBehavior)
-    }
-    
-    private var plate : UIView?
-    
-    func addPlate() {
-        
-    }
-    
-    func grabPlate(recognizer: UIPanGestureRecognizer) {
-//        function body
     }
 }

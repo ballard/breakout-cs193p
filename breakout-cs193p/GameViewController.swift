@@ -26,7 +26,6 @@ class GameViewController: UIViewController {
     private var platePoint : CGFloat = 0
     
     func movePlate(recognizer: UIPanGestureRecognizer){
-        //let gesturePoint = recognizer.location(in: gameView).x
         let gesturePoint = recognizer.translation(in: gameView)
         if recognizer.state == .changed {
             platePoint += gesturePoint.x
@@ -46,6 +45,8 @@ class GameViewController: UIViewController {
         platePoint = gameView.bounds.midX
         gameView.movePlate(toXPoint: platePoint)
         gameView.addBall()
+        gameView.addBreaks()
+        
         
     }
     
