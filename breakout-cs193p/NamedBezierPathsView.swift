@@ -14,6 +14,10 @@ class NamedBezierPathsView: UIView
     
     override func draw(_ rect: CGRect) {
         for (_, path) in bezierPaths {
+            UIColor.purple.setFill()
+            path.fill()
+            UIColor.yellow.setStroke()
+            path.lineWidth = 2.0
             path.stroke()
         }
     }

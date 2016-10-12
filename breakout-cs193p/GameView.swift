@@ -52,8 +52,16 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         let breakWidth = ballSize.width * 2
         let breakHeight = ballSize.height
         
-        for i in 1...5 {
-            let path = UIBezierPath(rect: CGRect(center: CGPoint(x: ((breakWidth) * CGFloat(i)) - breakWidth/2, y: CGPoint.zero.y + breakHeight/2), size: CGSize(width: breakWidth, height: breakHeight)))
+        for i in 0..<20 {
+            
+            let heightScale = Int(i / 5)
+            let widthScale = Int(i % 5 + 1)
+            
+            let pathRectCenterX = ((breakWidth) * CGFloat(widthScale)) - breakWidth/2
+            let pathRectCenterY = (breakHeight * CGFloat(heightScale)) + breakHeight/2
+            
+            let path = UIBezierPath(rect: CGRect(center: CGPoint(x: pathRectCenterX, y: pathRectCenterY), size: CGSize(width: breakWidth, height: breakHeight)))
+            
             let breakName = "Break" + String(i)
             ballBehavior.addBarrier(path: path, named: breakName)
             bezierPaths[breakName] = path

@@ -15,7 +15,11 @@ class BallBehavior: UIDynamicBehavior, UICollisionBehaviorDelegate {
     var recordBallHits : ((Int) -> Void)?
     var removeBreak: ((String) -> Void)?
     
-    let gravity = UIGravityBehavior() //better some public API
+    let gravity : UIGravityBehavior = {
+        let gravity = UIGravityBehavior()
+        gravity.magnitude = 0.5
+        return gravity
+    }() //better some public API
     
     let collider : UICollisionBehavior = {
         let collider = UICollisionBehavior()
@@ -26,11 +30,13 @@ class BallBehavior: UIDynamicBehavior, UICollisionBehaviorDelegate {
     private let itemBehavior : UIDynamicItemBehavior = {
         let itemBehavior = UIDynamicItemBehavior()
         itemBehavior.elasticity = 1
-//        itemBehavior.allowsRotation = false
+        itemBehavior.resistance = 0
+        itemBehavior.allowsRotation = false
         return itemBehavior
     }()
     
     func addBarrier(path: UIBezierPath, named name: String){
+        
         collider.removeBoundary(withIdentifier: name as NSCopying)
         collider.addBoundary(withIdentifier: name as NSCopying, for: path)
     }
