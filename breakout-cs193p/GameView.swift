@@ -11,11 +11,11 @@ import UIKit
 class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
     
     var countLabel : UILabel?
-    let countLabelScale = 10
+    let countLabelScale = 5
     
     private var countLabelSize : CGSize {
         let size = bounds.size.width / CGFloat(countLabelScale)
-        return CGSize(width: size, height: size)
+        return CGSize(width: size, height: size/2)
     }
     
     private struct PathNames {
@@ -25,7 +25,7 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
     
     private var plateSize : CGSize {
         let size = ballSize.width * 3
-        return CGSize(width: size, height: ballSize.height)
+        return CGSize(width: size, height: ballSize.height/2)
     }
     
     override func layoutSubviews() {
@@ -60,13 +60,22 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
             let pathRectCenterX = ((breakWidth) * CGFloat(widthScale)) - breakWidth/2
             let pathRectCenterY = (breakHeight * CGFloat(heightScale)) + breakHeight/2
             
-            let path = UIBezierPath(rect: CGRect(center: CGPoint(x: pathRectCenterX, y: pathRectCenterY), size: CGSize(width: breakWidth, height: breakHeight)))
+            let path = UIBezierPath(roundedRect: CGRect(center: CGPoint(x: pathRectCenterX, y: pathRectCenterY), size: CGSize(width: breakWidth, height: breakHeight)), cornerRadius: breakHeight/5)
+            
+            let view = UIView(frame: CGRect(center: CGPoint(x: pathRectCenterX, y: pathRectCenterY), size: CGSize(width: breakWidth, height: breakHeight)))
             
             let breakName = "Break" + String(i)
+            
+            
             ballBehavior.addBarrier(path: path, named: breakName)
-            bezierPaths[breakName] = path
+            
+            views[breakName] = view
+            
+            
+//            bezierPaths[breakName] = path
         }
         ballBehavior.removeBreak = ({[weak weakSelf = self] (deletingBreak: String) -> Void in
+            
             weakSelf?.bezierPaths[deletingBreak] = nil
             })
     }
@@ -75,10 +84,12 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         var frame = CGRect(origin: CGPoint.zero, size: countLabelSize)
         frame.origin.x = bounds.size.width - frame.width
         let label = UILabel(frame: frame)
+        label.textColor = UIColor.white
+        label.text = "Score: 0"
         addSubview(label)
         countLabel = label
         ballBehavior.recordBallHits = ({ [weak weakSelf = self] (inputValue: Int) -> Void in
-            weakSelf?.countLabel?.text = String(inputValue)
+            weakSelf?.countLabel?.text = "Score: \(inputValue)"
             })
     }
     

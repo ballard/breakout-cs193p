@@ -42,6 +42,7 @@ class GameViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         gameView.animating = true
+        gameView.backgroundColor = UIColor.black
         platePoint = gameView.bounds.midX
         gameView.movePlate(toXPoint: platePoint)
         gameView.addBall()

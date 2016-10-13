@@ -12,6 +12,7 @@ class BallBehavior: UIDynamicBehavior, UICollisionBehaviorDelegate {
     
     var ballHits = 0
     
+    // callback closures
     var recordBallHits : ((Int) -> Void)?
     var removeBreak: ((String) -> Void)?
     
@@ -36,7 +37,6 @@ class BallBehavior: UIDynamicBehavior, UICollisionBehaviorDelegate {
     }()
     
     func addBarrier(path: UIBezierPath, named name: String){
-        
         collider.removeBoundary(withIdentifier: name as NSCopying)
         collider.addBoundary(withIdentifier: name as NSCopying, for: path)
     }
