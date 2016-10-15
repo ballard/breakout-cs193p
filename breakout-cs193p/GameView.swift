@@ -10,7 +10,26 @@ import UIKit
 
 class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
     
-    var countLabel : UILabel?
+    var gameOver: ((Void) -> Void)?
+    
+    var breaksCount: Int? {
+        didSet{
+            breaksCountLabel?.text = "Score: \(breaksCount!)"
+            if breaksCount == 3 {
+                print("game over")
+                ballBehavior.removeItem(item: lastBall!)
+                lastBall?.removeFromSuperview()
+                for (name, view) in views {
+                    ballBehavior.collider.removeBoundary(withIdentifier: name as NSCopying)
+                    view.removeFromSuperview()
+                }
+                gameOver?()
+            }
+        }
+    }
+    
+    var breaksCountLabel : UILabel?
+    
     let countLabelScale = 5
     
     private var countLabelSize : CGSize {
@@ -28,12 +47,12 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         return CGSize(width: size, height: ballSize.height/2)
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        if countLabel == nil {
-            addCountLabel()
-        }
-    }
+//    override func layoutSubviews() {
+//        super.layoutSubviews()
+//        if countLabel == nil {
+//            addCountLabel()
+//        }
+//    }
     
     func movePlate(toXPoint xPoint: CGFloat) {
         if bezierPaths[PathNames.Plate] != nil {
@@ -66,15 +85,23 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
             
             let breakName = "Break" + String(i)
             
-            
             ballBehavior.addBarrier(path: path, named: breakName)
             
             views[breakName] = view
             
-            
 //            bezierPaths[breakName] = path
         }
         ballBehavior.removeBreak = ({[weak weakSelf = self] (deletingBreak: String) -> Void in
+            
+            UIView.transition(
+                with: (weakSelf?.views[deletingBreak])!,
+                duration: 0.5,
+                options: [.transitionFlipFromTop,.curveLinear],
+                animations: nil,
+                completion: { completion in
+                    weakSelf?.views[deletingBreak]!.removeFromSuperview()
+                }
+            )
             
             weakSelf?.bezierPaths[deletingBreak] = nil
             })
@@ -87,9 +114,10 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         label.textColor = UIColor.white
         label.text = "Score: 0"
         addSubview(label)
-        countLabel = label
+        breaksCountLabel = label
         ballBehavior.recordBallHits = ({ [weak weakSelf = self] (inputValue: Int) -> Void in
-            weakSelf?.countLabel?.text = "Score: \(inputValue)"
+//            weakSelf?.countLabel?.text = "Score: \(inputValue)"
+            weakSelf?.breaksCount = inputValue
             })
     }
     
