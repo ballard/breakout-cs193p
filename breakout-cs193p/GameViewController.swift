@@ -40,13 +40,14 @@ class GameViewController: UIViewController {
     }
     
     func restartGame() {
-        let alertController = UIAlertController(title: "Game Over!", message: "Press OK to restart", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Game Over!", message: "Press OK to restart the game", preferredStyle: .alert)
         
         let OKAction = UIAlertAction(title: "OK", style: .default) { [weak weakSelf = self] (action:UIAlertAction!) in
             print("Game restarted!");
             print("place new bricks and ball here")
-            
+            weakSelf?.gameView.prepareForGameStart()
             weakSelf?.gameView.addBreaks()
+            weakSelf?.gameView.addCountLabel()
             weakSelf?.gameView.addBall()
         }
         alertController.addAction(OKAction)

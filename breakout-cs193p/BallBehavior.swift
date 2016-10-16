@@ -10,10 +10,8 @@ import UIKit
 
 class BallBehavior: UIDynamicBehavior, UICollisionBehaviorDelegate {
     
-    var ballHits = 0
-    
     // callback closures
-    var recordBallHits : ((Int) -> Void)?
+    var recordBallHits : ((Void) -> Void)?
     var removeBreak: ((String) -> Void)?
     
     let gravity : UIGravityBehavior = {
@@ -27,6 +25,18 @@ class BallBehavior: UIDynamicBehavior, UICollisionBehaviorDelegate {
         collider.translatesReferenceBoundsIntoBoundary = true
         return collider
     }()
+    
+    func resetGame(){
+        for gravityItem in gravity.items{
+            gravity.removeItem(gravityItem)
+        }
+        for colliderItem in collider.items{
+            collider.removeItem(colliderItem)
+        }
+        for itemBehaviorItem in itemBehavior.items{
+            itemBehavior.removeItem(itemBehaviorItem)
+        }
+    }
     
     private let itemBehavior : UIDynamicItemBehavior = {
         let itemBehavior = UIDynamicItemBehavior()
@@ -46,8 +56,7 @@ class BallBehavior: UIDynamicBehavior, UICollisionBehaviorDelegate {
                            withBoundaryIdentifier identifier: NSCopying?,
                            at p: CGPoint) {
         if let boundary = identifier as? String, boundary.hasPrefix("Break") {
-            ballHits += 1
-            recordBallHits?(ballHits)
+            recordBallHits?()
             removeBreak?(boundary)
             collider.removeBoundary(withIdentifier: boundary as NSCopying)
             print("break hitted")
