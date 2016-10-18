@@ -45,10 +45,7 @@ class GameViewController: UIViewController {
         let OKAction = UIAlertAction(title: "OK", style: .default) { [weak weakSelf = self] (action:UIAlertAction!) in
             print("Game restarted!");
             print("place new bricks and ball here")
-            weakSelf?.gameView.prepareForGameStart()
-            weakSelf?.gameView.addBreaks()
-            weakSelf?.gameView.addCountLabel()
-            weakSelf?.gameView.addBall()
+            weakSelf?.startGame()
         }
         alertController.addAction(OKAction)
         
@@ -56,18 +53,19 @@ class GameViewController: UIViewController {
         
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    private func startGame(){
         gameView.animating = true
-        gameView.backgroundColor = UIColor.black
+        gameView.prepareForGameStart()
         platePoint = gameView.bounds.midX
         gameView.movePlate(toXPoint: platePoint)
-        gameView.addBreaks()
-        gameView.addBall()
-        gameView.addCountLabel()
         gameView.gameOver = ({ [weak weakSelf = self] (inputValue: Void) -> Void in
             weakSelf?.restartGame()
             })
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        startGame()
     }
     
     override func viewWillDisappear(_ animated: Bool) {

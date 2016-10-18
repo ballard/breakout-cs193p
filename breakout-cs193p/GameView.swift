@@ -25,23 +25,39 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         }
     }
     
+    
+    private struct Keys{
+        static let BricksCount = "Breakout.BricksCount"
+    }
+    
+    let defaults = UserDefaults.standard
+    private var bricksCount: Int {
+        get {
+            return defaults.object(forKey: Keys.BricksCount) as? Int ?? 30
+        }
+    }
+    
     func prepareForGameStart() {
         if views.count > 0 {
             for (_, view) in views {
-//                ballBehavior.collider.removeBoundary(withIdentifier: name as NSCopying)
                 view.removeFromSuperview()
             }
         }
         views = [:]
-        ballBehavior.resetGame()
+        ballBehavior.resetBallBehavior()
         breaksCount = 0
         breaksCountLabel?.removeFromSuperview()
+        if let ball = gameBall {
+            ballBehavior.removeItem(item: ball)
+        }
+        gameBall?.removeFromSuperview()
+        addBreaks()
+        addBall()
+        addCountLabel()
     }
     
     var breaksCountLabel : UILabel?
-    
     let countLabelScale = 5
-    
     private var countLabelSize : CGSize {
         let size = bounds.size.width / CGFloat(countLabelScale)
         return CGSize(width: size, height: size/2)
@@ -56,13 +72,6 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         let size = ballSize.width * 3
         return CGSize(width: size, height: ballSize.height/2)
     }
-    
-//    override func layoutSubviews() {
-//        super.layoutSubviews()
-//        if countLabel == nil {
-//            addCountLabel()
-//        }
-//    }
     
     func movePlate(toXPoint xPoint: CGFloat) {
         if bezierPaths[PathNames.Plate] != nil {
@@ -81,7 +90,7 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         let breakWidth = ballSize.width * 2
         let breakHeight = ballSize.height
         
-        for i in 0..<20 {
+        for i in 0..<bricksCount {
             
             let heightScale = Int(i / 5)
             let widthScale = Int(i % 5 + 1)
@@ -98,18 +107,10 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
             ballBehavior.addBarrier(path: path, named: breakName)
             
             views[breakName] = view
-            
-//            bezierPaths[breakName] = path
         }
         
-        for (name, _) in views {
-            print(name)
-        }
         
         ballBehavior.removeBreak = ({[weak weakSelf = self] (deletingBreak: String) -> Void in
-            
-            print("removing break \(deletingBreak)")
-            
             UIView.transition(
                 with: (weakSelf?.views[deletingBreak])!,
                 duration: 0.5,
@@ -117,12 +118,9 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
                 animations: nil,
                 completion: { completion in
                     weakSelf?.views[deletingBreak]!.removeFromSuperview()
-                    
                 }
             )
-            
-//            weakSelf?.bezierPaths[deletingBreak] = nil
-            })
+        })
     }
     
     func addCountLabel(){

@@ -9,10 +9,37 @@
 import UIKit
 
 class SettingsTableViewController: UITableViewController {
-
+    
+    
+    @IBOutlet weak var bricksCountSegmentedController: UISegmentedControl!
+    
+    @IBAction func setBricksCount(_ sender: UISegmentedControl) {
+        bricksCount = (sender.selectedSegmentIndex + 1) * 10
+    }
+    
+    private struct Keys{
+        static let BricksCount = "Breakout.BricksCount"
+    }
+    
+    let defaults = UserDefaults.standard
+    private var bricksCount: Int {
+        get {
+            return defaults.object(forKey: Keys.BricksCount) as? Int ?? 20
+        }
+        set{
+            defaults.set(newValue, forKey: Keys.BricksCount)
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        bricksCountSegmentedController.selectedSegmentIndex = (bricksCount / 10) - 1
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -29,12 +56,12 @@ class SettingsTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return 3
     }
 
     /*

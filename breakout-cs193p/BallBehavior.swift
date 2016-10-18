@@ -26,7 +26,7 @@ class BallBehavior: UIDynamicBehavior, UICollisionBehaviorDelegate {
         return collider
     }()
     
-    func resetGame(){
+    func resetBallBehavior(){
         for gravityItem in gravity.items{
             gravity.removeItem(gravityItem)
         }

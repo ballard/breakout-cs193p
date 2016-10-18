@@ -45,6 +45,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2C8991371DB6C9F700D688CD /* Settings Controls */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Settings Controls";
+			sourceTree = "<group>";
+		};
 		2CA355771DA5AA89000D8AB9 = {
 			isa = PBXGroup;
 			children = (
@@ -64,6 +71,7 @@
 		2CA355821DA5AA89000D8AB9 /* breakout-cs193p */ = {
 			isa = PBXGroup;
 			children = (
+				2C8991371DB6C9F700D688CD /* Settings Controls */,
 				2CE363091DA6F8F600ECDCE8 /* GameViewController.swift */,
 				2CA355871DA5AA89000D8AB9 /* Main.storyboard */,
 				2CA355951DA5AAAF000D8AB9 /* Supporting Files */,
