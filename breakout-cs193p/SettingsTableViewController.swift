@@ -10,31 +10,45 @@ import UIKit
 
 class SettingsTableViewController: UITableViewController {
     
-    
     @IBOutlet weak var bricksCountSegmentedController: UISegmentedControl!
-    
     @IBAction func setBricksCount(_ sender: UISegmentedControl) {
         bricksCount = (sender.selectedSegmentIndex + 1) * 10
     }
-    
-    private struct Keys{
-        static let BricksCount = "Breakout.BricksCount"
-    }
-    
-    let defaults = UserDefaults.standard
     private var bricksCount: Int {
         get {
-            return defaults.object(forKey: Keys.BricksCount) as? Int ?? 20
+            return UserDefaultsSingleton.sharedInstance.defaults!.object(
+                forKey: UserDefaultsSingleton.Keys.BricksCount) as? Int ?? 30
         }
         set{
-            defaults.set(newValue, forKey: Keys.BricksCount)
+            UserDefaultsSingleton.sharedInstance.defaults!.set(
+                newValue, forKey: UserDefaultsSingleton.Keys.BricksCount)
         }
     }
+    
+    @IBOutlet weak var gravitySlider: UISlider!
+    
+    @IBAction func gravityValue(_ sender: UISlider) {
+        print("save data= \(sender.value)")
+        gravity = CGFloat(sender.value)
+    }
+    
+    private var gravity: CGFloat {
+        get {
+            return UserDefaultsSingleton.sharedInstance.defaults!.object(
+                forKey: UserDefaultsSingleton.Keys.Gravity) as? CGFloat ?? 0.75
+        }
+        set{
+            UserDefaultsSingleton.sharedInstance.defaults!.set(
+                newValue, forKey: UserDefaultsSingleton.Keys.Gravity)
+        }
+    }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         bricksCountSegmentedController.selectedSegmentIndex = (bricksCount / 10) - 1
+        gravitySlider.value = Float(gravity)
     }
     
     override func viewDidLoad() {
@@ -62,6 +76,13 @@ class SettingsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return 3
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return "Game Settings"
+        }
+        return ""
     }
 
     /*

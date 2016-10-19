@@ -10,6 +10,19 @@ import UIKit
 
 class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
     
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        ballBehavior.gravity.magnitude = gravityValue!
+    }
+    
+    private var gravityValue: CGFloat? {
+        get {
+            return UserDefaultsSingleton.sharedInstance.defaults!.object(
+                forKey: UserDefaultsSingleton.Keys.Gravity) as? CGFloat ?? 0.75
+        }
+    }
+    
     var gameOver: ((Void) -> Void)?
     
     var breaksCount: Int = 0 {
@@ -25,15 +38,10 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         }
     }
     
-    
-    private struct Keys{
-        static let BricksCount = "Breakout.BricksCount"
-    }
-    
-    let defaults = UserDefaults.standard
     private var bricksCount: Int {
         get {
-            return defaults.object(forKey: Keys.BricksCount) as? Int ?? 30
+            return UserDefaultsSingleton.sharedInstance.defaults!.object(
+                forKey: UserDefaultsSingleton.Keys.BricksCount) as? Int ?? 30
         }
     }
     

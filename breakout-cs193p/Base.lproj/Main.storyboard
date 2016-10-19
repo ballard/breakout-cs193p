@@ -76,7 +76,7 @@
                                             <frame key="frameInset" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bricks count:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s6H-hj-5bD">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bricks count" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s6H-hj-5bD">
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -108,6 +108,25 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ds2-RQ-m1S" id="ZaQ-FA-wB0">
                                             <frame key="frameInset" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.75" minValue="0.5" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="hdq-2g-Qt9">
+                                                    <connections>
+                                                        <action selector="gravityValue:" destination="Me7-5Z-QFO" eventType="valueChanged" id="uI3-X6-xAR"/>
+                                                    </connections>
+                                                </slider>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gravity" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CWL-6g-Kc2">
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="hdq-2g-Qt9" firstAttribute="centerY" secondItem="ZaQ-FA-wB0" secondAttribute="centerY" id="9Ef-fw-5Er"/>
+                                                <constraint firstItem="CWL-6g-Kc2" firstAttribute="leading" secondItem="ZaQ-FA-wB0" secondAttribute="leadingMargin" id="IKw-OB-nCz"/>
+                                                <constraint firstItem="CWL-6g-Kc2" firstAttribute="centerY" secondItem="hdq-2g-Qt9" secondAttribute="centerY" id="lRE-Th-asl"/>
+                                                <constraint firstItem="hdq-2g-Qt9" firstAttribute="trailing" secondItem="ZaQ-FA-wB0" secondAttribute="trailingMargin" id="njY-T5-inL"/>
+                                                <constraint firstItem="hdq-2g-Qt9" firstAttribute="leading" secondItem="CWL-6g-Kc2" secondAttribute="trailing" constant="8" symbolic="YES" id="ym9-ba-WKT"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="b8p-vm-LmA">
@@ -137,11 +156,12 @@
                     <tabBarItem key="tabBarItem" title="Settings" id="nbB-bv-JW4"/>
                     <connections>
                         <outlet property="bricksCountSegmentedController" destination="0sV-br-Jes" id="5Bs-Zu-TWi"/>
+                        <outlet property="gravitySlider" destination="hdq-2g-Qt9" id="GJ8-Na-Moh"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HIW-2w-3RE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="68" y="504"/>
+            <point key="canvasLocation" x="68" y="503.29835082458777"/>
         </scene>
     </scenes>
 </document>
