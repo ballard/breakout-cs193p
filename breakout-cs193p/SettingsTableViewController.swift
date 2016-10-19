@@ -54,11 +54,27 @@ class SettingsTableViewController: UITableViewController {
         }
     }
     
+    @IBOutlet weak var ballSwitch: UISwitch!
+    @IBAction func setBallMoving(_ sender: UISwitch) {
+        ballMoving = sender.isOn
+    }
+    private var ballMoving: Bool {
+        get {
+            return UserDefaultsSingleton.sharedInstance.defaults!.object(
+                forKey: UserDefaultsSingleton.Keys.BallMoving) as? Bool ?? false
+        }
+        set{
+            UserDefaultsSingleton.sharedInstance.defaults!.set(
+                newValue, forKey: UserDefaultsSingleton.Keys.BallMoving)
+        }
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         bricksCountSegmentedController.selectedSegmentIndex = (bricksCount / 10) - 1
         gravitySlider.value = Float(gravity)
         elasticitySlider.value = Float(elasticity)
+        ballSwitch.isOn = ballMoving
     }
     
     override func viewDidLoad() {
@@ -78,15 +94,15 @@ class SettingsTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 3
-    }
+//    override func numberOfSections(in tableView: UITableView) -> Int {
+//        // #warning Incomplete implementation, return the number of sections
+//        return 1
+//    }
+//
+//    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        // #warning Incomplete implementation, return the number of rows
+//        return 3
+//    }
     
 //    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 //        if section == 0 {

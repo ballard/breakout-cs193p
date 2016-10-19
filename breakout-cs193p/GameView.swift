@@ -15,6 +15,7 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         super.layoutSubviews()
         ballBehavior.gravity.magnitude = gravityValue!
         ballBehavior.itemBehavior.elasticity = elasticityValue!
+        ballBehavior.itemBehavior.allowsRotation = ballMoving!
     }
     
     private var gravityValue: CGFloat? {
@@ -28,6 +29,13 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         get {
             return UserDefaultsSingleton.sharedInstance.defaults!.object(
                 forKey: UserDefaultsSingleton.Keys.Elasticity) as? CGFloat ?? 1.0
+        }
+    }
+    
+    private var ballMoving: Bool? {
+        get {
+            return UserDefaultsSingleton.sharedInstance.defaults!.object(
+                forKey: UserDefaultsSingleton.Keys.BallMoving) as? Bool ?? false
         }
     }
     

@@ -67,10 +67,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <sections>
-                            <tableViewSection id="F8e-jf-oBm">
+                            <tableViewSection headerTitle="Game Settings" id="F8e-jf-oBm">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="rAb-df-znU">
-                                        <rect key="frame" x="0.0" y="35" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="56" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rAb-df-znU" id="EQb-iJ-4fb">
                                             <frame key="frameInset" width="375" height="43"/>
@@ -86,7 +86,6 @@
                                                         <segment title="10"/>
                                                         <segment title="20"/>
                                                         <segment title="30"/>
-                                                        <segment title="40"/>
                                                     </segments>
                                                     <connections>
                                                         <action selector="setBricksCount:" destination="Me7-5Z-QFO" eventType="valueChanged" id="ijd-qq-8bW"/>
@@ -103,7 +102,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="ds2-RQ-m1S">
-                                        <rect key="frame" x="0.0" y="79" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="100" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ds2-RQ-m1S" id="ZaQ-FA-wB0">
                                             <frame key="frameInset" width="375" height="43"/>
@@ -130,7 +129,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="b8p-vm-LmA">
-                                        <rect key="frame" x="0.0" y="123" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="144" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="b8p-vm-LmA" id="4Le-HK-wZN">
                                             <frame key="frameInset" width="375" height="43"/>
@@ -157,24 +156,29 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="izo-3h-Ur6">
-                                        <rect key="frame" x="0.0" y="167" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="188" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="izo-3h-Ur6" id="il0-z4-u65">
                                             <frame key="frameInset" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Theme" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hwZ-T8-rrf">
-                                                    <frame key="frameInset" minX="8" minY="11" width="54" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gbo-2y-q4V">
+                                                    <connections>
+                                                        <action selector="setBallMoving:" destination="Me7-5Z-QFO" eventType="valueChanged" id="fJh-HC-kDS"/>
+                                                    </connections>
+                                                </switch>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ball Additional Moving" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hwZ-T8-rrf">
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gbo-2y-q4V">
-                                                    <frame key="frameInset" minX="318" minY="6" width="51" height="31"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                </switch>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Gbo-2y-q4V" firstAttribute="trailing" secondItem="il0-z4-u65" secondAttribute="trailingMargin" id="Bqi-aK-IAD"/>
+                                                <constraint firstItem="hwZ-T8-rrf" firstAttribute="centerY" secondItem="il0-z4-u65" secondAttribute="centerY" id="GFs-K4-Ga6"/>
+                                                <constraint firstItem="hwZ-T8-rrf" firstAttribute="leading" secondItem="il0-z4-u65" secondAttribute="leadingMargin" id="Z2f-vK-77n"/>
+                                                <constraint firstItem="hwZ-T8-rrf" firstAttribute="centerY" secondItem="Gbo-2y-q4V" secondAttribute="centerY" id="uya-Cu-bpG"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -187,6 +191,7 @@
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Settings" id="nbB-bv-JW4"/>
                     <connections>
+                        <outlet property="ballSwitch" destination="Gbo-2y-q4V" id="EJJ-mv-SfY"/>
                         <outlet property="bricksCountSegmentedController" destination="0sV-br-Jes" id="5Bs-Zu-TWi"/>
                         <outlet property="elasticitySlider" destination="6yQ-ol-vYe" id="gqp-Xz-fYV"/>
                         <outlet property="gravitySlider" destination="hdq-2g-Qt9" id="GJ8-Na-Moh"/>

@@ -15,6 +15,7 @@ class UserDefaultsSingleton {
         static let BricksCount = "Breakout.BricksCount"
         static let Gravity = "Breakout.Gravity"
         static let Elasticity = "Breakout.Elasticity"
+        static let BallMoving = "Breakout.BallMoving"
     }
     
     static let sharedInstance = UserDefaultsSingleton()
