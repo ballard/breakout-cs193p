@@ -26,12 +26,9 @@ class SettingsTableViewController: UITableViewController {
     }
     
     @IBOutlet weak var gravitySlider: UISlider!
-    
-    @IBAction func gravityValue(_ sender: UISlider) {
-        print("save data= \(sender.value)")
+    @IBAction func setGravity(_ sender: UISlider) {
         gravity = CGFloat(sender.value)
     }
-    
     private var gravity: CGFloat {
         get {
             return UserDefaultsSingleton.sharedInstance.defaults!.object(
@@ -42,13 +39,26 @@ class SettingsTableViewController: UITableViewController {
                 newValue, forKey: UserDefaultsSingleton.Keys.Gravity)
         }
     }
-    
+    @IBOutlet weak var elasticitySlider: UISlider!
+    @IBAction func setElasticity(_ sender: UISlider) {
+        elasticity = CGFloat(sender.value)
+    }
+    private var elasticity: CGFloat {
+        get {
+            return UserDefaultsSingleton.sharedInstance.defaults!.object(
+                forKey: UserDefaultsSingleton.Keys.Elasticity) as? CGFloat ?? 1.0
+        }
+        set{
+            UserDefaultsSingleton.sharedInstance.defaults!.set(
+                newValue, forKey: UserDefaultsSingleton.Keys.Elasticity)
+        }
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         bricksCountSegmentedController.selectedSegmentIndex = (bricksCount / 10) - 1
         gravitySlider.value = Float(gravity)
+        elasticitySlider.value = Float(elasticity)
     }
     
     override func viewDidLoad() {
@@ -78,12 +88,12 @@ class SettingsTableViewController: UITableViewController {
         return 3
     }
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0 {
-            return "Game Settings"
-        }
-        return ""
-    }
+//    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        if section == 0 {
+//            return "Game Settings"
+//        }
+//        return ""
+//    }
 
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

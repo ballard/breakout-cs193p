@@ -14,12 +14,20 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
     override func layoutSubviews() {
         super.layoutSubviews()
         ballBehavior.gravity.magnitude = gravityValue!
+        ballBehavior.itemBehavior.elasticity = elasticityValue!
     }
     
     private var gravityValue: CGFloat? {
         get {
             return UserDefaultsSingleton.sharedInstance.defaults!.object(
                 forKey: UserDefaultsSingleton.Keys.Gravity) as? CGFloat ?? 0.75
+        }
+    }
+    
+    private var elasticityValue: CGFloat? {
+        get {
+            return UserDefaultsSingleton.sharedInstance.defaults!.object(
+                forKey: UserDefaultsSingleton.Keys.Elasticity) as? CGFloat ?? 1.0
         }
     }
     
@@ -160,6 +168,8 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         }
     }
 
+    
+    // MARK - ball implementation
     private let ballBehavior = BallBehavior()
     
     let ballScale = 10

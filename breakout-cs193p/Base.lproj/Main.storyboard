@@ -62,15 +62,15 @@
         <scene sceneID="OCQ-w9-DQC">
             <objects>
                 <tableViewController id="Me7-5Z-QFO" customClass="SettingsTableViewController" customModule="breakout_cs193p" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="74z-Lg-oa5">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" sectionIndexMinimumDisplayRowCount="1" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="74z-Lg-oa5">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <sections>
                             <tableViewSection id="F8e-jf-oBm">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="rAb-df-znU">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="35" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rAb-df-znU" id="EQb-iJ-4fb">
                                             <frame key="frameInset" width="375" height="43"/>
@@ -103,7 +103,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="ds2-RQ-m1S">
-                                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="79" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ds2-RQ-m1S" id="ZaQ-FA-wB0">
                                             <frame key="frameInset" width="375" height="43"/>
@@ -111,7 +111,7 @@
                                             <subviews>
                                                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.75" minValue="0.5" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="hdq-2g-Qt9">
                                                     <connections>
-                                                        <action selector="gravityValue:" destination="Me7-5Z-QFO" eventType="valueChanged" id="uI3-X6-xAR"/>
+                                                        <action selector="setGravity:" destination="Me7-5Z-QFO" eventType="valueChanged" id="XUJ-Mr-NA2"/>
                                                     </connections>
                                                 </slider>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gravity" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CWL-6g-Kc2">
@@ -130,19 +130,51 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="b8p-vm-LmA">
-                                        <rect key="frame" x="0.0" y="88" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="123" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="b8p-vm-LmA" id="4Le-HK-wZN">
                                             <frame key="frameInset" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Elasticity" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rkd-vc-qTL">
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.5" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="6yQ-ol-vYe">
+                                                    <connections>
+                                                        <action selector="setElasticity:" destination="Me7-5Z-QFO" eventType="valueChanged" id="aVA-2x-ggr"/>
+                                                    </connections>
+                                                </slider>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Rkd-vc-qTL" firstAttribute="centerY" secondItem="6yQ-ol-vYe" secondAttribute="centerY" id="D8E-GD-2y5"/>
+                                                <constraint firstItem="Rkd-vc-qTL" firstAttribute="leading" secondItem="4Le-HK-wZN" secondAttribute="leadingMargin" id="DrE-8G-BEy"/>
+                                                <constraint firstItem="6yQ-ol-vYe" firstAttribute="centerY" secondItem="4Le-HK-wZN" secondAttribute="centerY" id="NQV-WS-qU5"/>
+                                                <constraint firstItem="6yQ-ol-vYe" firstAttribute="leading" secondItem="Rkd-vc-qTL" secondAttribute="trailing" constant="3" id="Vdg-QD-eOP"/>
+                                                <constraint firstItem="6yQ-ol-vYe" firstAttribute="trailing" secondItem="4Le-HK-wZN" secondAttribute="trailingMargin" id="qpA-nl-bTs"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="izo-3h-Ur6">
-                                        <rect key="frame" x="0.0" y="132" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="167" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="izo-3h-Ur6" id="il0-z4-u65">
                                             <frame key="frameInset" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Theme" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hwZ-T8-rrf">
+                                                    <frame key="frameInset" minX="8" minY="11" width="54" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gbo-2y-q4V">
+                                                    <frame key="frameInset" minX="318" minY="6" width="51" height="31"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </switch>
+                                            </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -156,6 +188,7 @@
                     <tabBarItem key="tabBarItem" title="Settings" id="nbB-bv-JW4"/>
                     <connections>
                         <outlet property="bricksCountSegmentedController" destination="0sV-br-Jes" id="5Bs-Zu-TWi"/>
+                        <outlet property="elasticitySlider" destination="6yQ-ol-vYe" id="gqp-Xz-fYV"/>
                         <outlet property="gravitySlider" destination="hdq-2g-Qt9" id="GJ8-Na-Moh"/>
                     </connections>
                 </tableViewController>

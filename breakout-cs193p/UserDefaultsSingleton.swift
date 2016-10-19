@@ -14,6 +14,7 @@ class UserDefaultsSingleton {
     struct Keys{
         static let BricksCount = "Breakout.BricksCount"
         static let Gravity = "Breakout.Gravity"
+        static let Elasticity = "Breakout.Elasticity"
     }
     
     static let sharedInstance = UserDefaultsSingleton()

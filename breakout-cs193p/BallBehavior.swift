@@ -14,10 +14,9 @@ class BallBehavior: UIDynamicBehavior, UICollisionBehaviorDelegate {
     var recordBallHits : ((Void) -> Void)?
     var removeBreak: ((String) -> Void)?
     
-    lazy var gravity : UIGravityBehavior = {
+    let gravity : UIGravityBehavior = {
         let gravity = UIGravityBehavior()
         gravity.magnitude = 0.75
-        print("loademagnitude = \(gravity.magnitude)")
         return gravity
     }() //better some public API
     
@@ -39,7 +38,7 @@ class BallBehavior: UIDynamicBehavior, UICollisionBehaviorDelegate {
         }
     }
     
-    private let itemBehavior : UIDynamicItemBehavior = {
+    let itemBehavior : UIDynamicItemBehavior = {
         let itemBehavior = UIDynamicItemBehavior()
         itemBehavior.elasticity = 1
         itemBehavior.resistance = 0
