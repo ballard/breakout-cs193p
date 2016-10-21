@@ -11,7 +11,7 @@ import Foundation
 
 class UserDefaultsSingleton {
     
-    struct Keys{
+    struct Keys {
         static let BricksCount = "Breakout.BricksCount"
         static let Gravity = "Breakout.Gravity"
         static let Elasticity = "Breakout.Elasticity"

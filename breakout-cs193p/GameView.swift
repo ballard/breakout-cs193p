@@ -9,13 +9,12 @@
 import UIKit
 
 class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
-    
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
-        ballBehavior.gravity.magnitude = gravityValue!
-        ballBehavior.itemBehavior.elasticity = elasticityValue!
-        ballBehavior.itemBehavior.allowsRotation = ballMoving!
+        ballBehavior.setMagnitude(magnitude: gravityValue!)
+        ballBehavior.setElasticity(elasticity: elasticityValue!)
+        ballBehavior.setAllowsRotation(allowsRotation: ballMoving!)
     }
     
     private var gravityValue: CGFloat? {
@@ -114,6 +113,8 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         let breakWidth = ballSize.width * 2
         let breakHeight = ballSize.height
         
+        print("bricks count: \(bricksCount)")
+        
         for i in 0..<bricksCount {
             
             let heightScale = Int(i / 5)
@@ -133,21 +134,22 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
             views[breakName] = view
         }
         
-        
         ballBehavior.removeBreak = ({[weak weakSelf = self] (deletingBreak: String) -> Void in
-            UIView.transition(
-                with: (weakSelf?.views[deletingBreak])!,
-                duration: 0.5,
-                options: [.transitionFlipFromTop,.curveLinear],
-                animations: nil,
-                completion: { completion in
-                    weakSelf?.views[deletingBreak]!.removeFromSuperview()
-                }
-            )
+            if let brick = weakSelf?.views[deletingBreak]{
+                UIView.transition(
+                    with: brick,
+                    duration: 0.5,
+                    options: [.transitionFlipFromTop,.curveLinear],
+                    animations: nil,
+                    completion: { completion in
+                        weakSelf?.views[deletingBreak]!.removeFromSuperview()
+                    }
+                )
+            }
         })
     }
     
-    func addCountLabel(){
+    func addCountLabel() {
         var frame = CGRect(origin: CGPoint.zero, size: countLabelSize)
         frame.origin.x = bounds.size.width - frame.width
         let label = UILabel(frame: frame)
@@ -171,17 +173,16 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
             if animating {
                 animator.addBehavior(ballBehavior)
             } else {
-                animator.removeBehavior(ballBehavior )
+                animator.removeBehavior(ballBehavior)
             }
         }
     }
-
     
     // MARK - ball implementation
     private let ballBehavior = BallBehavior()
     
     let ballScale = 10
-
+    
     private var ballSize : CGSize {
         let size = bounds.size.width / CGFloat(ballScale)
         return CGSize(width: size, height: size)
