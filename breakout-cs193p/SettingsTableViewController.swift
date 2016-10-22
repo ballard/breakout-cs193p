@@ -28,6 +28,7 @@ class SettingsTableViewController: UITableViewController {
     @IBOutlet weak var gravitySlider: UISlider!
     @IBAction func setGravity(_ sender: UISlider) {
         gravity = CGFloat(sender.value)
+        print("gravity saved to: \(gravity)")
     }
     private var gravity: CGFloat {
         get {

@@ -15,6 +15,7 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         ballBehavior.setMagnitude(magnitude: gravityValue!)
         ballBehavior.setElasticity(elasticity: elasticityValue!)
         ballBehavior.setAllowsRotation(allowsRotation: ballMoving!)
+        ballBehavior.setAngle(angle: 90 * CGFloat(M_PI) / 180)
     }
     
     private var gravityValue: CGFloat? {
@@ -43,11 +44,11 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
     var breaksCount: Int = 0 {
         didSet{
             breaksCountLabel?.text = "Score: \(breaksCount)"
-            if breaksCount == 20 {
-                if gameBall != nil {
-                    ballBehavior.removeItem(item: gameBall!)
-                    gameBall?.removeFromSuperview()
-                }
+            if breaksCount == bricksCount {
+//                if let ball = gameBall {
+//                    ballBehavior.removeItem(item: ball)
+//                    ball.removeFromSuperview()
+//                }
                 gameOver?()
             }
         }
@@ -70,13 +71,17 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         ballBehavior.resetBallBehavior()
         breaksCount = 0
         breaksCountLabel?.removeFromSuperview()
+        
         if let ball = gameBall {
             ballBehavior.removeItem(item: ball)
+            ball.removeFromSuperview()
         }
-        gameBall?.removeFromSuperview()
+        
         addBreaks()
         addBall()
         addCountLabel()
+        
+        
     }
     
     var breaksCountLabel : UILabel?
@@ -113,7 +118,7 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         let breakWidth = ballSize.width * 2
         let breakHeight = ballSize.height
         
-        print("bricks count: \(bricksCount)")
+        print("ball moving: \(ballMoving!)")
         
         for i in 0..<bricksCount {
             
@@ -135,6 +140,11 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         }
         
         ballBehavior.removeBreak = ({[weak weakSelf = self] (deletingBreak: String) -> Void in
+            
+            if let rotating = weakSelf?.ballMoving, rotating == true {
+                weakSelf?.pushLastBall(angle: CGFloat.random(max: 360))
+            }
+            
             if let brick = weakSelf?.views[deletingBreak]{
                 UIView.transition(
                     with: brick,
@@ -202,13 +212,12 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         gameBall = ball
     }
     
-    func pushLastBall() {
+    func pushLastBall(angle: CGFloat) {
         let pushBehavior = UIPushBehavior(items: [gameBall!], mode: .instantaneous)
-        pushBehavior.magnitude = 0.8
-        pushBehavior.angle = CGFloat.random(max: 360)
+        pushBehavior.magnitude = 0.5
+        pushBehavior.angle = angle//CGFloat.random(max: 360)
         pushBehavior.action = {[unowned pushBehavior] in
             pushBehavior.dynamicAnimator!.removeBehavior(pushBehavior)
-            
         }
         animator.addBehavior(pushBehavior)
     }

@@ -19,7 +19,7 @@ class GameViewController: UIViewController {
     
     func pushBall(recognizer: UITapGestureRecognizer) {
         if recognizer.state == .ended {
-            gameView.pushLastBall()
+            gameView.pushLastBall(angle: CGFloat.random(max: 360))
         }
     }
     
@@ -59,6 +59,7 @@ class GameViewController: UIViewController {
         gameView.gameOver = ({ [weak weakSelf = self] (inputValue: Void) -> Void in
             weakSelf?.restartGame()
             })
+        gameView.pushLastBall(angle: 90.0 * CGFloat(M_PI) / 180.0)
     }
     
     override func viewDidLoad() {

@@ -14,14 +14,19 @@ class BallBehavior: UIDynamicBehavior, UICollisionBehaviorDelegate {
     var recordBallHits : ((Void) -> Void)?
     var removeBreak: ((String) -> Void)?
     
-    private let gravity : UIGravityBehavior = {
+    private var gravity : UIGravityBehavior = {
         let gravity = UIGravityBehavior()
-        gravity.magnitude = 0.75
+        gravity.magnitude = 0.0
+        gravity.angle = 90 * CGFloat(M_PI) / 180
         return gravity
-    }() //better some public API
+    }()
     
     func setMagnitude(magnitude: CGFloat) -> Void {
-        itemBehavior.elasticity = magnitude
+        gravity.magnitude = magnitude
+    }
+    
+    func setAngle(angle: CGFloat) -> Void {
+        gravity.angle = angle
     }
     
     let collider : UICollisionBehavior = {
@@ -46,6 +51,10 @@ class BallBehavior: UIDynamicBehavior, UICollisionBehaviorDelegate {
                 collider.removeBoundary(withIdentifier: boundaryIdentifier)
             }
         }
+        
+        
+//        print("restored elasticity: \(itemBehavior.elasticity)")
+        
     }
     
     private let itemBehavior : UIDynamicItemBehavior = {
@@ -77,6 +86,8 @@ class BallBehavior: UIDynamicBehavior, UICollisionBehaviorDelegate {
             recordBallHits?()
             removeBreak?(boundary)
             collider.removeBoundary(withIdentifier: boundary as NSCopying)
+            
+            print("restored rotation: \(itemBehavior.allowsRotation)")
             print("break hitted")
         }
     }
