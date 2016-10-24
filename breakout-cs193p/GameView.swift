@@ -81,7 +81,6 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         addBall()
         addCountLabel()
         
-        
     }
     
     var breaksCountLabel : UILabel?
@@ -132,17 +131,20 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
             
             let view = UIView(frame: CGRect(center: CGPoint(x: pathRectCenterX, y: pathRectCenterY), size: CGSize(width: breakWidth, height: breakHeight)))
             
+            
             let breakName = "Break" + String(i)
             
             ballBehavior.addBarrier(path: path, named: breakName)
             
             views[breakName] = view
+            
+            
         }
         
         ballBehavior.removeBreak = ({[weak weakSelf = self] (deletingBreak: String) -> Void in
             
             if let rotating = weakSelf?.ballMoving, rotating == true {
-                weakSelf?.pushLastBall(angle: CGFloat.random(max: 360))
+                weakSelf?.pushLastBall(angle: CGFloat.random(max: 360) * CGFloat(M_PI) / 180)
             }
             
             if let brick = weakSelf?.views[deletingBreak]{
@@ -204,7 +206,7 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         var frame = CGRect(origin: CGPoint.zero, size: ballSize)
         frame.origin.x = (bounds.size.width / 2) - (frame.width / 2)
         frame.origin.y = bounds.midY
-        let ball = UIView(frame: frame)
+        let ball = RoundedUIView(frame: frame)
         ball.layer.cornerRadius = ball.frame.width / 2
         ball.backgroundColor = UIColor.red
         addSubview(ball)
@@ -214,7 +216,7 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
     
     func pushLastBall(angle: CGFloat) {
         let pushBehavior = UIPushBehavior(items: [gameBall!], mode: .instantaneous)
-        pushBehavior.magnitude = 0.5
+        pushBehavior.magnitude = 0.3
         pushBehavior.angle = angle//CGFloat.random(max: 360)
         pushBehavior.action = {[unowned pushBehavior] in
             pushBehavior.dynamicAnimator!.removeBehavior(pushBehavior)
