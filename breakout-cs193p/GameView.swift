@@ -134,9 +134,9 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
             let breakName = "Break" + String(i)
             ballBehavior.addBarrier(path: path, named: breakName)
             
-            var hits = 0
-            if i == 20 {
-                hits = 1
+            var hits = false
+            if i % 2 == 0 {
+                hits = true
             }
             
             let doubleView = DoubleView(hits: hits, view: view, path: path)
@@ -155,7 +155,7 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
             
             if let brick = weakSelf?.doubleViews[deletingBreak] {
                 
-                if brick.hits == 0 {
+                if !brick.hits {
                     UIView.transition(
                         with: brick.view,
                         duration: 0.5,
@@ -167,7 +167,7 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
                         }
                     )
                 } else {
-                    weakSelf?.doubleViews[deletingBreak]?.hits = 0
+                    weakSelf?.doubleViews[deletingBreak]?.hits = false
                     weakSelf?.doubleViews[deletingBreak]?.view.backgroundColor = UIColor.purple
                     weakSelf?.ballBehavior.addBarrier(path: brick.path, named: deletingBreak)
                     print("double brick hitted, named: \(deletingBreak)")

@@ -40,7 +40,7 @@ class NamedBezierPathsView: UIView
     }
     
     struct DoubleView {
-        var hits: Int = 0
+        var hits: Bool
         var view: UIView
         var path: UIBezierPath
     }
@@ -50,7 +50,7 @@ class NamedBezierPathsView: UIView
     private func addSubViews(_: [String : DoubleView]) {
         for (_, doubleView) in doubleViews {
             
-            if doubleView.hits > 0 {
+            if doubleView.hits {
                 doubleView.view.backgroundColor = UIColor.blue
             } else {
                 doubleView.view.backgroundColor = UIColor.purple
