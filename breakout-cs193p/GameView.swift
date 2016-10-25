@@ -62,12 +62,12 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
     }
     
     func prepareForGameStart() {
-        if views.count > 0 {
-            for (_, view) in views {
-                view.removeFromSuperview()
+        if doubleViews.count > 0 {
+            for (_, doubleView) in doubleViews {
+                doubleView.view.removeFromSuperview()
             }
         }
-        views = [:]
+        doubleViews = [:]
         ballBehavior.resetBallBehavior()
         breaksCount = 0
         breaksCountLabel?.removeFromSuperview()
@@ -131,14 +131,20 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
             
             let view = UIView(frame: CGRect(center: CGPoint(x: pathRectCenterX, y: pathRectCenterY), size: CGSize(width: breakWidth, height: breakHeight)))
             
-            
             let breakName = "Break" + String(i)
-            
             ballBehavior.addBarrier(path: path, named: breakName)
             
-            views[breakName] = view
+            var hits = 0
+            if i == 20 {
+                hits = 1
+            }
             
-            
+            let doubleView = DoubleView(hits: hits, view: view, path: path)
+            doubleViews[breakName] = doubleView
+        }
+        
+        for view in doubleViews {
+            print(view)
         }
         
         ballBehavior.removeBreak = ({[weak weakSelf = self] (deletingBreak: String) -> Void in
@@ -147,16 +153,25 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
                 weakSelf?.pushLastBall(angle: CGFloat.random(max: 360) * CGFloat(M_PI) / 180)
             }
             
-            if let brick = weakSelf?.views[deletingBreak]{
-                UIView.transition(
-                    with: brick,
-                    duration: 0.5,
-                    options: [.transitionFlipFromTop,.curveLinear],
-                    animations: nil,
-                    completion: { completion in
-                        weakSelf?.views[deletingBreak]!.removeFromSuperview()
-                    }
-                )
+            if let brick = weakSelf?.doubleViews[deletingBreak] {
+                
+                if brick.hits == 0 {
+                    UIView.transition(
+                        with: brick.view,
+                        duration: 0.5,
+                        options: [.transitionFlipFromTop,.curveLinear],
+                        animations: nil,
+                        completion: { completion in
+                            weakSelf?.doubleViews[deletingBreak]!.view.removeFromSuperview()
+                            weakSelf?.doubleViews[deletingBreak] = nil
+                        }
+                    )
+                } else {
+                    weakSelf?.doubleViews[deletingBreak]?.hits = 0
+                    weakSelf?.doubleViews[deletingBreak]?.view.backgroundColor = UIColor.purple
+                    weakSelf?.ballBehavior.addBarrier(path: brick.path, named: deletingBreak)
+                    print("double brick hitted, named: \(deletingBreak)")
+                }
             }
         })
     }

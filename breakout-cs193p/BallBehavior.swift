@@ -83,10 +83,10 @@ class BallBehavior: UIDynamicBehavior, UICollisionBehaviorDelegate {
                            withBoundaryIdentifier identifier: NSCopying?,
                            at p: CGPoint) {
         if let boundary = identifier as? String, boundary.hasPrefix("Break") {
+            
+            collider.removeBoundary(withIdentifier: boundary as NSCopying)
             recordBallHits?()
             removeBreak?(boundary)
-            collider.removeBoundary(withIdentifier: boundary as NSCopying)
-            
             print("restored rotation: \(itemBehavior.allowsRotation)")
             print("break hitted")
         }
