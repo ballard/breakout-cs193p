@@ -19,7 +19,7 @@ class GameViewController: UIViewController {
     
     func pushBall(recognizer: UITapGestureRecognizer) {
         if recognizer.state == .ended {
-            gameView.pushLastBall(angle: 90.0 * CGFloat(M_PI) / 180.0)//CGFloat.random(max: 360))
+            gameView.pushLastBall(angle: 270.0 * CGFloat(M_PI) / 180.0)//CGFloat.random(max: 360))
         }
     }
     
