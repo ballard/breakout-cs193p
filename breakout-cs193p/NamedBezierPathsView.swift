@@ -27,41 +27,33 @@ class NamedBezierPathsView: UIView
         }
     }
     
-    var views : [String : UIView] = [:] { didSet { addSubViews(views) } }
-    
-    private func addSubViews(_: [String : UIView]) {
-        for (_, view) in views {
-            view.backgroundColor = UIColor.purple
-            view.layer.borderColor = UIColor.black.cgColor
-            view.layer.borderWidth = 2.0
-            view.layer.cornerRadius = view.bounds.height / 5
-            addSubview(view)
-        }
-    }
-    
     struct DoubleView {
         var hits: Bool
         var view: UIView
         var path: UIBezierPath
     }
     
-    var doubleViews : [String : DoubleView] = [:] { didSet { addSubViews(doubleViews) } }
+    var isDoubleViewsBuilded = false
+    
+    var doubleViews : [String : DoubleView] = [:] {
+        didSet {
+            if isDoubleViewsBuilded == false {
+                addSubViews(doubleViews)
+            }
+        }
+    }
     
     private func addSubViews(_: [String : DoubleView]) {
         for (_, doubleView) in doubleViews {
-            
             if doubleView.hits {
                 doubleView.view.backgroundColor = UIColor.blue
             } else {
                 doubleView.view.backgroundColor = UIColor.purple
             }
-            
             doubleView.view.layer.borderColor = UIColor.black.cgColor
             doubleView.view.layer.borderWidth = 2.0
             doubleView.view.layer.cornerRadius = doubleView.view.bounds.height / 5
             addSubview(doubleView.view)
         }
     }
-    
-    
 }

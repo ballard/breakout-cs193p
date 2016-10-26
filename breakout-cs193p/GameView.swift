@@ -44,16 +44,15 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
     var breaksCount: Int = 0 {
         didSet{
             breaksCountLabel?.text = "Score: \(breaksCount)"
+            if let ball = gameBall {
+                print("ball velocity: \(ballBehavior.getItemVelocity(item: ball))")
+            }
             if breaksCount == bricksCount {
-//                if let ball = gameBall {
-//                    ballBehavior.removeItem(item: ball)
-//                    ball.removeFromSuperview()
-//                }
                 gameOver?()
             }
         }
     }
-    
+
     private var bricksCount: Int {
         get {
             return UserDefaultsSingleton.sharedInstance.defaults!.object(
@@ -76,11 +75,11 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
             ballBehavior.removeItem(item: ball)
             ball.removeFromSuperview()
         }
-        
+        isDoubleViewsBuilded = false
         addBreaks()
+        isDoubleViewsBuilded = true
         addBall()
         addCountLabel()
-        
     }
     
     var breaksCountLabel : UILabel?
@@ -132,19 +131,16 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
             let view = UIView(frame: CGRect(center: CGPoint(x: pathRectCenterX, y: pathRectCenterY), size: CGSize(width: breakWidth, height: breakHeight)))
             
             let breakName = "Break" + String(i)
-            ballBehavior.addBarrier(path: path, named: breakName)
             
             var hits = false
             if i % 2 == 0 {
                 hits = true
             }
             
+            ballBehavior.addBarrier(path: path, named: breakName)
+            
             let doubleView = DoubleView(hits: hits, view: view, path: path)
             doubleViews[breakName] = doubleView
-        }
-        
-        for view in doubleViews {
-            print(view)
         }
         
         ballBehavior.removeBreak = ({[weak weakSelf = self] (deletingBreak: String) -> Void in
@@ -156,6 +152,7 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
             if let brick = weakSelf?.doubleViews[deletingBreak] {
                 
                 if !brick.hits {
+                    weakSelf?.breaksCount += 1
                     UIView.transition(
                         with: brick.view,
                         duration: 0.5,
@@ -163,7 +160,7 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
                         animations: nil,
                         completion: { completion in
                             weakSelf?.doubleViews[deletingBreak]!.view.removeFromSuperview()
-                            weakSelf?.doubleViews[deletingBreak] = nil
+//                            weakSelf?.doubleViews[deletingBreak] = nil
                         }
                     )
                 } else {
@@ -184,9 +181,9 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         label.text = "Score: 0"
         addSubview(label)
         breaksCountLabel = label
-        ballBehavior.recordBallHits = ({ [weak weakSelf = self] (inputValue: Void) -> Void in
-            weakSelf?.breaksCount += 1
-            })
+//        ballBehavior.recordBallHits = ({ [weak weakSelf = self] (inputValue: Void) -> Void in
+//            weakSelf?.breaksCount += 1
+//            })
     }
     
     private lazy var animator : UIDynamicAnimator = {[unowned self] in
@@ -206,7 +203,7 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
     }
     
     // MARK - ball implementation
-    private let ballBehavior = BallBehavior()
+    let ballBehavior = BallBehavior()
     
     let ballScale = 10
     
@@ -215,7 +212,7 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         return CGSize(width: size, height: size)
     }
     
-    private var gameBall : UIView?
+    var gameBall : UIView?
 
     func addBall (){
         var frame = CGRect(origin: CGPoint.zero, size: ballSize)
@@ -227,6 +224,7 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         addSubview(ball)
         ballBehavior.addItem(item: ball)
         gameBall = ball
+        
     }
     
     func pushLastBall(angle: CGFloat) {

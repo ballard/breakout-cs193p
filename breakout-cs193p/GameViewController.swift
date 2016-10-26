@@ -19,7 +19,7 @@ class GameViewController: UIViewController {
     
     func pushBall(recognizer: UITapGestureRecognizer) {
         if recognizer.state == .ended {
-            gameView.pushLastBall(angle: CGFloat.random(max: 360))
+            gameView.pushLastBall(angle: 90.0 * CGFloat(M_PI) / 180.0)//CGFloat.random(max: 360))
         }
     }
     
@@ -67,13 +67,32 @@ class GameViewController: UIViewController {
         UserDefaultsSingleton.sharedInstance
     }
     
+    private var isGamePaused = false
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        startGame()
+        
+        if !isGamePaused {
+            startGame()
+        } else {
+            gameView.animating = true
+            if let ball = gameView.gameBall{
+                gameView.ballBehavior.setItemVelocity(item: ball, velocity: ballVelocity )
+            }
+            
+            isGamePaused = false
+        }
     }
+    
+    var ballVelocity = CGPoint.zero
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        isGamePaused = true
+        
+        if let ball = gameView.gameBall{
+            ballVelocity = gameView.ballBehavior.getItemVelocity(item: ball)
+        }
         gameView.animating = false
     }
 

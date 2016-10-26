@@ -11,7 +11,7 @@ import UIKit
 class BallBehavior: UIDynamicBehavior, UICollisionBehaviorDelegate {
     
     // callback closures
-    var recordBallHits : ((Void) -> Void)?
+//    var recordBallHits : ((Void) -> Void)?
     var removeBreak: ((String) -> Void)?
     
     private var gravity : UIGravityBehavior = {
@@ -51,10 +51,6 @@ class BallBehavior: UIDynamicBehavior, UICollisionBehaviorDelegate {
                 collider.removeBoundary(withIdentifier: boundaryIdentifier)
             }
         }
-        
-        
-//        print("restored elasticity: \(itemBehavior.elasticity)")
-        
     }
     
     private let itemBehavior : UIDynamicItemBehavior = {
@@ -64,6 +60,15 @@ class BallBehavior: UIDynamicBehavior, UICollisionBehaviorDelegate {
         itemBehavior.allowsRotation = false
         return itemBehavior
     }()
+    
+    func getItemVelocity(item: UIDynamicItem) -> CGPoint {
+        return itemBehavior.linearVelocity(for: item)
+    }
+    
+    func setItemVelocity(item: UIDynamicItem, velocity: CGPoint) -> Void {
+        itemBehavior.addLinearVelocity(velocity, for: item)
+    }
+    
     
     func setElasticity(elasticity: CGFloat) -> Void {
         itemBehavior.elasticity = elasticity
@@ -84,11 +89,10 @@ class BallBehavior: UIDynamicBehavior, UICollisionBehaviorDelegate {
                            at p: CGPoint) {
         if let boundary = identifier as? String, boundary.hasPrefix("Break") {
             collider.removeBoundary(withIdentifier: boundary as NSCopying)
-            recordBallHits?()
+//            recordBallHits?()
             removeBreak?(boundary)
         }
     }
-    
     
     override init() {
         super.init()
