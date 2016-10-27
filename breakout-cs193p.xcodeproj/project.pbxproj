@@ -125,6 +125,7 @@
 				TargetAttributes = {
 					2CA3557F1DA5AA89000D8AB9 = {
 						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = 9LU8U6NNWA;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -296,6 +297,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 9LU8U6NNWA;
 				INFOPLIST_FILE = "breakout-cs193p/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "itc.breakout-cs193p";
@@ -308,6 +310,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 9LU8U6NNWA;
 				INFOPLIST_FILE = "breakout-cs193p/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "itc.breakout-cs193p";

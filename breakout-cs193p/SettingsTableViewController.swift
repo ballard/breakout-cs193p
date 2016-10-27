@@ -33,7 +33,7 @@ class SettingsTableViewController: UITableViewController {
     private var gravity: CGFloat {
         get {
             return UserDefaultsSingleton.sharedInstance.defaults!.object(
-                forKey: UserDefaultsSingleton.Keys.Gravity) as? CGFloat ?? 0.75
+                forKey: UserDefaultsSingleton.Keys.Gravity) as? CGFloat ?? 0.0
         }
         set{
             UserDefaultsSingleton.sharedInstance.defaults!.set(
@@ -69,6 +69,23 @@ class SettingsTableViewController: UITableViewController {
                 newValue, forKey: UserDefaultsSingleton.Keys.BallMoving)
         }
     }
+    
+    @IBOutlet weak var realGravitySwitch: UISwitch!
+    @IBAction func setRealGravity(_ sender: UISwitch) {
+        realGravity = sender.isOn
+    }
+    private var realGravity: Bool {
+        get {
+            return UserDefaultsSingleton.sharedInstance.defaults!.object(
+                forKey: UserDefaultsSingleton.Keys.RealGravity) as? Bool ?? false
+        }
+        set{
+            UserDefaultsSingleton.sharedInstance.defaults!.set(
+                newValue, forKey: UserDefaultsSingleton.Keys.RealGravity)
+        }
+    }
+    
+    
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

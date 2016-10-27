@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreMotion
 
 class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
 
@@ -21,7 +22,7 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
     private var gravityValue: CGFloat? {
         get {
             return UserDefaultsSingleton.sharedInstance.defaults!.object(
-                forKey: UserDefaultsSingleton.Keys.Gravity) as? CGFloat ?? 0.75
+                forKey: UserDefaultsSingleton.Keys.Gravity) as? CGFloat ?? 0.0
         }
     }
     
@@ -36,6 +37,13 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         get {
             return UserDefaultsSingleton.sharedInstance.defaults!.object(
                 forKey: UserDefaultsSingleton.Keys.BallMoving) as? Bool ?? false
+        }
+    }
+    
+    private var realGravity: Bool? {
+        get {
+            return UserDefaultsSingleton.sharedInstance.defaults!.object(
+                forKey: UserDefaultsSingleton.Keys.RealGravity) as? Bool ?? false
         }
     }
     
@@ -196,6 +204,7 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         didSet{
             if animating {
                 animator.addBehavior(ballBehavior)
+                updateRealGravity()
             } else {
                 animator.removeBehavior(ballBehavior)
             }
@@ -235,5 +244,43 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
             pushBehavior.dynamicAnimator!.removeBehavior(pushBehavior)
         }
         animator.addBehavior(pushBehavior)
+    }
+    
+    
+    
+//    var _realGravity = false {
+//        didSet{
+//            updateRealGravity()
+//        }
+//    }
+    
+    private let motionManager = CMMotionManager()
+    
+    private func updateRealGravity(){
+        if realGravity! {
+            if motionManager.isAccelerometerAvailable && !motionManager.isAccelerometerActive {
+                motionManager.accelerometerUpdateInterval = 0.25
+                motionManager.startAccelerometerUpdates(to: OperationQueue.main) {
+                    [unowned self ] (data, error) in
+                    
+                    if self.ballBehavior.dynamicAnimator != nil{
+                        if var dx = data?.acceleration.x, var dy = data?.acceleration.y {
+                            switch UIDevice.current.orientation {
+                            case .portrait: dy = -dy
+                            case .portraitUpsideDown: break
+                            case .landscapeLeft: swap(&dx, &dy); dy = -dy
+                            case .landscapeRight: swap(&dx, &dy)
+                            default: dx = 0; dy = 0
+                            }
+                            self.ballBehavior.gravity.gravityDirection = CGVector(dx: dx, dy: dy)
+                        }
+                    } else {
+                        self.motionManager.stopAccelerometerUpdates()
+                    }
+                }
+            }
+        } else {
+            motionManager.stopAccelerometerUpdates()
+        }
     }
 }

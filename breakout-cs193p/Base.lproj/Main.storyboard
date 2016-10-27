@@ -181,6 +181,32 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="hMi-cZ-t6g">
+                                        <rect key="frame" x="0.0" y="232" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hMi-cZ-t6g" id="DXj-98-Nog">
+                                            <frame key="frameInset" width="375" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qnA-Ov-QH8">
+                                                    <connections>
+                                                        <action selector="setRealGravity:" destination="Me7-5Z-QFO" eventType="valueChanged" id="9jm-79-xas"/>
+                                                    </connections>
+                                                </switch>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use Real Gravity" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7we-lJ-kQL">
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="qnA-Ov-QH8" firstAttribute="trailing" secondItem="DXj-98-Nog" secondAttribute="trailingMargin" id="7s1-ud-nTg"/>
+                                                <constraint firstItem="7we-lJ-kQL" firstAttribute="centerY" secondItem="DXj-98-Nog" secondAttribute="centerY" id="f70-dZ-Qyb"/>
+                                                <constraint firstItem="7we-lJ-kQL" firstAttribute="centerY" secondItem="qnA-Ov-QH8" secondAttribute="centerY" id="rlr-WF-6ct"/>
+                                                <constraint firstItem="7we-lJ-kQL" firstAttribute="leading" secondItem="DXj-98-Nog" secondAttribute="leadingMargin" id="t8O-AW-RSm"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -195,6 +221,7 @@
                         <outlet property="bricksCountSegmentedController" destination="0sV-br-Jes" id="5Bs-Zu-TWi"/>
                         <outlet property="elasticitySlider" destination="6yQ-ol-vYe" id="gqp-Xz-fYV"/>
                         <outlet property="gravitySlider" destination="hdq-2g-Qt9" id="GJ8-Na-Moh"/>
+                        <outlet property="realGravitySwitch" destination="qnA-Ov-QH8" id="hYB-kz-5Hy"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HIW-2w-3RE" userLabel="First Responder" sceneMemberID="firstResponder"/>

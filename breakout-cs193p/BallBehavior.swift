@@ -14,7 +14,7 @@ class BallBehavior: UIDynamicBehavior, UICollisionBehaviorDelegate {
 //    var recordBallHits : ((Void) -> Void)?
     var removeBreak: ((String) -> Void)?
     
-    private var gravity : UIGravityBehavior = {
+    var gravity : UIGravityBehavior = {
         let gravity = UIGravityBehavior()
         gravity.magnitude = 0.0
         gravity.angle = 90 * CGFloat(M_PI) / 180
