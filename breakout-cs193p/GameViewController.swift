@@ -62,10 +62,10 @@ class GameViewController: UIViewController {
         gameView.pushLastBall(angle: 90.0 * CGFloat(M_PI) / 180.0)
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        UserDefaultsSingleton.sharedInstance
-    }
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//        UserDefaultsSingleton.sharedInstance
+//    }
     
     private var isGamePaused = false
     

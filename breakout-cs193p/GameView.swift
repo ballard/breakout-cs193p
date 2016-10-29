@@ -11,10 +11,20 @@ import CoreMotion
 
 class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
 
+    // TODO
+    // - decrease score if ball hits bottom
+    // - cooldown of tap gesture
+    
+    lazy var userDefaults: UserDefaultsSingleton = {
+        return UserDefaultsSingleton.sharedInstance
+    }()
     
     // MARK - settings restore
     override func layoutSubviews() {
         super.layoutSubviews()
+        
+//        UserDefaultsSingleton.sharedInstance
+        
         ballBehavior.setMagnitude(magnitude: gravityValue!)
         ballBehavior.setElasticity(elasticity: elasticityValue!)
         ballBehavior.setAllowsRotation(allowsRotation: ballMoving!)
@@ -23,35 +33,36 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
     
     private var gravityValue: CGFloat? {
         get {
-            return UserDefaultsSingleton.sharedInstance.defaults!.object(
+            return userDefaults.defaults!.object(
+//            return UserDefaultsSingleton.sharedInstance.defaults!.object(
                 forKey: UserDefaultsSingleton.Keys.Gravity) as? CGFloat ?? 0.0
         }
     }
     
     private var elasticityValue: CGFloat? {
         get {
-            return UserDefaultsSingleton.sharedInstance.defaults!.object(
+            return userDefaults.defaults!.object(
                 forKey: UserDefaultsSingleton.Keys.Elasticity) as? CGFloat ?? 1.0
         }
     }
     
     private var ballMoving: Bool? {
         get {
-            return UserDefaultsSingleton.sharedInstance.defaults!.object(
+            return userDefaults.defaults!.object(
                 forKey: UserDefaultsSingleton.Keys.BallMoving) as? Bool ?? false
         }
     }
     
     private var realGravity: Bool? {
         get {
-            return UserDefaultsSingleton.sharedInstance.defaults!.object(
+            return userDefaults.defaults!.object(
                 forKey: UserDefaultsSingleton.Keys.RealGravity) as? Bool ?? false
         }
     }
     
     private var bricksCount: Int {
         get {
-            return UserDefaultsSingleton.sharedInstance.defaults!.object(
+            return userDefaults.defaults!.object(
                 forKey: UserDefaultsSingleton.Keys.BricksCount) as? Int ?? 30
         }
     }
