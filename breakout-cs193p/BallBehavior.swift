@@ -13,6 +13,7 @@ class BallBehavior: UIDynamicBehavior, UICollisionBehaviorDelegate {
     // callback closures
 //    var recordBallHits : ((Void) -> Void)?
     var removeBreak: ((String) -> Void)?
+    var hitBottom : ((Void) -> Void)?
     
     var gravity : UIGravityBehavior = {
         let gravity = UIGravityBehavior()
@@ -87,10 +88,15 @@ class BallBehavior: UIDynamicBehavior, UICollisionBehaviorDelegate {
                            beganContactFor item: UIDynamicItem,
                            withBoundaryIdentifier identifier: NSCopying?,
                            at p: CGPoint) {
-        if let boundary = identifier as? String, boundary.hasPrefix("Break") {
-            collider.removeBoundary(withIdentifier: boundary as NSCopying)
-//            recordBallHits?()
-            removeBreak?(boundary)
+        if let boundary = identifier as? String {
+            if boundary.hasPrefix("Break") {
+                collider.removeBoundary(withIdentifier: boundary as NSCopying)
+                //            recordBallHits?()
+                removeBreak?(boundary)
+            } else if boundary == "Bottom" {
+                print("gotcha")
+                hitBottom?()
+            }
         }
     }
     

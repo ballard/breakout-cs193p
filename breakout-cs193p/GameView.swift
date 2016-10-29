@@ -14,6 +14,7 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
     // TODO
     // - decrease score if ball hits bottom
     // - cooldown of tap gesture
+    // - consider using of DI instead of singleton for user settings
     
     lazy var userDefaults: UserDefaultsSingleton = {
         return UserDefaultsSingleton.sharedInstance
@@ -69,6 +70,7 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
 
     // MARK - clear the game for start
     func prepareForGameStart() {
+        // clear
         if doubleViews.count > 0 {
             for (_, doubleView) in doubleViews {
                 doubleView.view.removeFromSuperview()
@@ -83,9 +85,12 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
             ballBehavior.removeItem(item: ball)
             ball.removeFromSuperview()
         }
+        
+        // fill
         isDoubleViewsBuilded = false
         addBreaks()
         isDoubleViewsBuilded = true
+        addBottomBoundary()
         addBall()
         addCountLabel()
     }
@@ -100,9 +105,9 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
             if let ball = gameBall {
                 print("ball velocity: \(ballBehavior.getItemVelocity(item: ball))")
             }
-            if breaksCount == bricksCount {
-                gameOver?()
-            }
+//            if breaksCount == bricksCount {
+//                gameOver?()
+//            }
         }
     }
     
@@ -110,8 +115,8 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
     var breaksCountLabel : UILabel?
     let countLabelScale = 5
     private var countLabelSize : CGSize {
-        let size = bounds.size.width / CGFloat(countLabelScale)
-        return CGSize(width: size, height: size/2)
+        let size = bounds.size.width / CGFloat(countLabelScale) * 2
+        return CGSize(width: size / 3 * 2, height: size / 4)
     }
     
     func addCountLabel() {
@@ -127,10 +132,12 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         //            })
     }
     
+    
     // MARK - plate and bricks setup
     private struct PathNames {
         static let Plate = "Plate"
         static let Break = "Break"
+        static let Bottom = "Bottom"
     }
     
     private var plateSize : CGSize {
@@ -200,6 +207,11 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
                         completion: { completion in
                             weakSelf?.doubleViews[deletingBreak]!.view.removeFromSuperview()
 //                            weakSelf?.doubleViews[deletingBreak] = nil
+                            _ = weakSelf?.doubleViews.removeValue(forKey: deletingBreak)
+                            print(weakSelf?.doubleViews.count)
+                            if weakSelf?.doubleViews.count == 0 {
+                                weakSelf?.gameOver?()
+                            }
                         }
                     )
                 } else {
@@ -211,6 +223,16 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
             }
         })
     }
+    
+    // MARK - bottom setup
+    func addBottomBoundary() {
+        ballBehavior.collider.addBoundary(withIdentifier: PathNames.Bottom as NSCopying, from: CGPoint(x: bounds.minX, y: bounds.maxY), to: CGPoint(x: bounds.maxX, y: bounds.maxY))
+        ballBehavior.hitBottom = ({ [weak weakSelf = self] in
+            weakSelf?.breaksCount -= 1
+        })
+        
+    }
+    
     
     // MARK - animator setup
     private lazy var animator : UIDynamicAnimator = {[unowned self] in
