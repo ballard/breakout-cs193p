@@ -11,6 +11,8 @@ import CoreMotion
 
 class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
 
+    
+    // MARK - settings restore
     override func layoutSubviews() {
         super.layoutSubviews()
         ballBehavior.setMagnitude(magnitude: gravityValue!)
@@ -47,27 +49,14 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         }
     }
     
-    var gameOver: ((Void) -> Void)?
-    
-    var breaksCount: Int = 0 {
-        didSet{
-            breaksCountLabel?.text = "Score: \(breaksCount)"
-            if let ball = gameBall {
-                print("ball velocity: \(ballBehavior.getItemVelocity(item: ball))")
-            }
-            if breaksCount == bricksCount {
-                gameOver?()
-            }
-        }
-    }
-
     private var bricksCount: Int {
         get {
             return UserDefaultsSingleton.sharedInstance.defaults!.object(
                 forKey: UserDefaultsSingleton.Keys.BricksCount) as? Int ?? 30
         }
     }
-    
+
+    // MARK - clear the game for start
     func prepareForGameStart() {
         if doubleViews.count > 0 {
             for (_, doubleView) in doubleViews {
@@ -90,6 +79,23 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         addCountLabel()
     }
     
+    // MARK - game over closure
+    var gameOver: ((Void) -> Void)?
+    
+    // MARK - score
+    var breaksCount: Int = 0 {
+        didSet{
+            breaksCountLabel?.text = "Score: \(breaksCount)"
+            if let ball = gameBall {
+                print("ball velocity: \(ballBehavior.getItemVelocity(item: ball))")
+            }
+            if breaksCount == bricksCount {
+                gameOver?()
+            }
+        }
+    }
+    
+    // MARK - game score label setup
     var breaksCountLabel : UILabel?
     let countLabelScale = 5
     private var countLabelSize : CGSize {
@@ -97,6 +103,20 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         return CGSize(width: size, height: size/2)
     }
     
+    func addCountLabel() {
+        var frame = CGRect(origin: CGPoint.zero, size: countLabelSize)
+        frame.origin.x = bounds.size.width - frame.width
+        let label = UILabel(frame: frame)
+        label.textColor = UIColor.white
+        label.text = "Score: 0"
+        addSubview(label)
+        breaksCountLabel = label
+        //        ballBehavior.recordBallHits = ({ [weak weakSelf = self] (inputValue: Void) -> Void in
+        //            weakSelf?.breaksCount += 1
+        //            })
+    }
+    
+    // MARK - plate and bricks setup
     private struct PathNames {
         static let Plate = "Plate"
         static let Break = "Break"
@@ -181,19 +201,7 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         })
     }
     
-    func addCountLabel() {
-        var frame = CGRect(origin: CGPoint.zero, size: countLabelSize)
-        frame.origin.x = bounds.size.width - frame.width
-        let label = UILabel(frame: frame)
-        label.textColor = UIColor.white
-        label.text = "Score: 0"
-        addSubview(label)
-        breaksCountLabel = label
-//        ballBehavior.recordBallHits = ({ [weak weakSelf = self] (inputValue: Void) -> Void in
-//            weakSelf?.breaksCount += 1
-//            })
-    }
-    
+    // MARK - animator setup
     private lazy var animator : UIDynamicAnimator = {[unowned self] in
         let animator = UIDynamicAnimator(referenceView: self)
         animator.delegate = self
@@ -211,7 +219,7 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         }
     }
     
-    // MARK - ball implementation
+    // MARK - ball setup
     let ballBehavior = BallBehavior()
     
     let ballScale = 10
@@ -246,14 +254,7 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         animator.addBehavior(pushBehavior)
     }
     
-    
-    
-//    var _realGravity = false {
-//        didSet{
-//            updateRealGravity()
-//        }
-//    }
-    
+    // MARK - real gravity setup
     private let motionManager = CMMotionManager()
     
     private func updateRealGravity(){
