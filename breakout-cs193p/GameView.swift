@@ -12,7 +12,7 @@ import CoreMotion
 class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
 
     // TODO
-    // - decrease score if ball hits bottom
+    // + decrease score if ball hits bottom
     // - cooldown of tap gesture
     // - consider using of DI instead of singleton for user settings
     

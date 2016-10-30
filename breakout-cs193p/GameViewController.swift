@@ -19,7 +19,10 @@ class GameViewController: UIViewController {
     
     func pushBall(recognizer: UITapGestureRecognizer) {
         if recognizer.state == .ended {
-            gameView.pushLastBall(angle: 270.0 * CGFloat(M_PI) / 180.0)//CGFloat.random(max: 360))
+            if !pushCooldown{
+                gameView.pushLastBall(angle: 270.0 * CGFloat(M_PI) / 180.0)//CGFloat.random(max: 360))
+                pushCooldown = true
+            }
         }
     }
     
@@ -95,5 +98,38 @@ class GameViewController: UIViewController {
         }
         gameView.animating = false
     }
-
+    
+    
+    // MARK - push ball cooldown
+    
+    var pushCooldown: Bool = false {
+        didSet {
+            startPushCooldown()
+        }
+    }
+    
+    func startPushCooldown() {
+        if pushCooldown {
+            gameView.addSubview(coolDownImageView!)
+            Timer.scheduledTimer(
+                timeInterval: 3,
+                target: self, selector: #selector(GameViewController.resetPushCooldown),
+                userInfo: nil,
+                repeats: false
+            )
+        }
+    }
+    
+    func resetPushCooldown() {
+        coolDownImageView?.removeFromSuperview()
+        pushCooldown = false
+    }
+    
+    lazy var coolDownImageView : UIImageView? = { [unowned self] in
+        let size : CGFloat = self.gameView.bounds.width / 10;
+        var cooldownImage = UIImage(named: "Cooldown")
+        var coolDownImageView = UIImageView(image: cooldownImage)
+        coolDownImageView.frame = CGRect(center: CGPoint(x: self.gameView.bounds.minX + size/2, y: self.gameView.bounds.minY + size/2), size: CGSize(width: size, height: size))
+        return coolDownImageView
+    }()
 }
