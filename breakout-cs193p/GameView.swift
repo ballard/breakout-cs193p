@@ -13,7 +13,7 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
 
     // TODO
     // + decrease score if ball hits bottom
-    // - cooldown of tap gesture
+    // + cooldown of tap gesture
     // - consider using of DI instead of singleton for user settings
     
     lazy var userDefaults: UserDefaultsSingleton = {
@@ -23,9 +23,6 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
     // MARK - settings restore
     override func layoutSubviews() {
         super.layoutSubviews()
-        
-//        UserDefaultsSingleton.sharedInstance
-        
         ballBehavior.setMagnitude(magnitude: gravityValue!)
         ballBehavior.setElasticity(elasticity: elasticityValue!)
         ballBehavior.setAllowsRotation(allowsRotation: ballMoving!)
@@ -105,9 +102,6 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
             if let ball = gameBall {
                 print("ball velocity: \(ballBehavior.getItemVelocity(item: ball))")
             }
-//            if breaksCount == bricksCount {
-//                gameOver?()
-//            }
         }
     }
     
