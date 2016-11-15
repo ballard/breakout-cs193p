@@ -23,13 +23,13 @@ class GameViewController: UIViewController {
         if recognizer.state == .ended {
             
             guard isGameStarted else {
-                gameView?.pushLastBall(angle: 90.0 * CGFloat(M_PI) / 180.0)
+                gameView?.pushBalls(angle: 90.0 * CGFloat(M_PI) / 180.0)
                 isGameStarted = true
                 return
             }
             
             if !pushCooldown{
-                gameView.pushLastBall(angle: 270.0 * CGFloat(M_PI) / 180.0)//CGFloat.random(max: 360))
+                gameView.pushBalls(angle: 270.0 * CGFloat(M_PI) / 180.0)//CGFloat.random(max: 360))
                 pushCooldown = true
             }
         }
@@ -83,9 +83,14 @@ class GameViewController: UIViewController {
             startGame()
         } else {
             gameView.animating = true
-            if let ball = gameView.gameBall{
+            
+            _ = gameView.allGameBalls.map { ball in
                 gameView.ballBehavior.setItemVelocity(item: ball, velocity: ballVelocity )
             }
+            
+//            if let ball = gameView.gameBall{
+//                gameView.ballBehavior.setItemVelocity(item: ball, velocity: ballVelocity )
+//            }
             
             isGamePaused = false
         }
@@ -97,9 +102,13 @@ class GameViewController: UIViewController {
         super.viewWillDisappear(animated)
         isGamePaused = true
         
-        if let ball = gameView.gameBall{
+        _ = gameView.allGameBalls.map { ball in
             ballVelocity = gameView.ballBehavior.getItemVelocity(item: ball)
         }
+        
+//        if let ball = gameView.gameBall{
+//            ballVelocity = gameView.ballBehavior.getItemVelocity(item: ball)
+//        }
         gameView.animating = false
     }
     
