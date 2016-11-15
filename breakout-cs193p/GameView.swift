@@ -76,20 +76,21 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         doubleViews = [:]
         ballBehavior.resetBallBehavior()
         breaksCount = 0
-        breaksCountLabel?.removeFromSuperview()
-        
         if let ball = gameBall {
             ballBehavior.removeItem(item: ball)
             ball.removeFromSuperview()
         }
-        
         // fill
         isDoubleViewsBuilded = false
         addBreaks()
         isDoubleViewsBuilded = true
         addBottomBoundary()
         addBall()
-        addCountLabel()
+        if breaksCountLabel != nil {
+            self.bringSubview(toFront: breaksCountLabel!)
+        } else {
+            addCountLabel()
+        }
     }
     
     // MARK - game over closure
@@ -202,7 +203,7 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
                             weakSelf?.doubleViews[deletingBreak]!.view.removeFromSuperview()
 //                            weakSelf?.doubleViews[deletingBreak] = nil
                             _ = weakSelf?.doubleViews.removeValue(forKey: deletingBreak)
-                            print(weakSelf?.doubleViews.count)
+//                            print(weakSelf?.doubleViews.count)
                             if weakSelf?.doubleViews.count == 0 {
                                 weakSelf?.gameOver?()
                             }
