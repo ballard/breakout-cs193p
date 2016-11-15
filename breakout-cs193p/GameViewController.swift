@@ -17,8 +17,17 @@ class GameViewController: UIViewController {
         }
     }
     
+    private var isGameStarted = false
+    
     func pushBall(recognizer: UITapGestureRecognizer) {
         if recognizer.state == .ended {
+            
+            guard isGameStarted else {
+                gameView?.pushLastBall(angle: 90.0 * CGFloat(M_PI) / 180.0)
+                isGameStarted = true
+                return
+            }
+            
             if !pushCooldown{
                 gameView.pushLastBall(angle: 270.0 * CGFloat(M_PI) / 180.0)//CGFloat.random(max: 360))
                 pushCooldown = true
@@ -43,6 +52,7 @@ class GameViewController: UIViewController {
     }
     
     func restartGame() {
+        isGameStarted = false
         let alertController = UIAlertController(title: "Game Over!", message: "Press OK to restart the game", preferredStyle: .alert)
         
         let OKAction = UIAlertAction(title: "OK", style: .default) { [weak weakSelf = self] (action:UIAlertAction!) in
@@ -62,13 +72,7 @@ class GameViewController: UIViewController {
         gameView.gameOver = ({ [weak weakSelf = self] (inputValue: Void) -> Void in
             weakSelf?.restartGame()
             })
-        gameView.pushLastBall(angle: 90.0 * CGFloat(M_PI) / 180.0)
     }
-    
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        UserDefaultsSingleton.sharedInstance
-//    }
     
     private var isGamePaused = false
     
