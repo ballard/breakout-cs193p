@@ -68,16 +68,16 @@
 		2CA355821DA5AA89000D8AB9 /* breakout-cs193p */ = {
 			isa = PBXGroup;
 			children = (
-				2CE363091DA6F8F600ECDCE8 /* GameViewController.swift */,
-				2CA355871DA5AA89000D8AB9 /* Main.storyboard */,
 				2CA355951DA5AAAF000D8AB9 /* Supporting Files */,
 				2CE3630B1DA6F94E00ECDCE8 /* SettingsTableViewController.swift */,
+				2CE363091DA6F8F600ECDCE8 /* GameViewController.swift */,
 				2CE3630D1DA8437C00ECDCE8 /* GameView.swift */,
 				2CE3630F1DA84FD300ECDCE8 /* BallBehavior.swift */,
 				2C8991351DAAC90600D688CD /* NamedBezierPathsView.swift */,
 				2CE363111DA8545F00ECDCE8 /* UIKit Extensions.swift */,
 				2C89913C1DB7F3A000D688CD /* UserDefaultsSingleton.swift */,
 				2CF0D8741DBE934700282493 /* RoundedUIView.swift */,
+				2CA355871DA5AA89000D8AB9 /* Main.storyboard */,
 			);
 			path = "breakout-cs193p";
 			sourceTree = "<group>";

@@ -85,8 +85,6 @@ class SettingsTableViewController: UITableViewController {
         }
     }
     
-    
-
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         bricksCountSegmentedController.selectedSegmentIndex = (bricksCount / 10) - 1

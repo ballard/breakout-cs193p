@@ -145,7 +145,14 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
             bezierPaths[PathNames.Plate] = nil
         }
         
-        let path = UIBezierPath(ovalIn: CGRect(center: CGPoint(x: xPoint, y:bounds.maxY - plateSize.height), size: plateSize))
+        var newXPoint = xPoint
+        if newXPoint < plateSize.width / 2 {
+            newXPoint = plateSize.width / 2
+        } else if newXPoint > self.bounds.maxX - plateSize.width / 2 {
+            newXPoint = self.bounds.maxX - plateSize.width / 2
+        }
+        
+        let path = UIBezierPath(ovalIn: CGRect(center: CGPoint(x: newXPoint, y:bounds.maxY - plateSize.height), size: plateSize))
         ballBehavior.addBarrier(path: path, named: PathNames.Plate)
         bezierPaths[PathNames.Plate] = path
     }
