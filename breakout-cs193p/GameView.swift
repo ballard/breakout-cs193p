@@ -81,7 +81,6 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
             ball.removeFromSuperview()
         }
         allGameBalls.removeAll()
-        
         // fill
         isDoubleViewsBuilded = false
         addBreaks()
@@ -105,10 +104,6 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
             if breaksCount % 10 == 0, breaksCount > 0 {
                 addBall()
             }
-            
-//            if let ball = gameBall {
-//                print("ball velocity: \(ballBehavior.getItemVelocity(item: ball))")
-//            }
         }
     }
     
@@ -264,14 +259,8 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         return CGSize(width: size, height: size)
     }
     
-    public var allGameBalls = [UIView]() //{
-//        didSet {
-//            if allGameBalls.count == 0 {
-//                gameOver?()
-//            }
-//        }
-//    }
-        
+    public var allGameBalls = [UIView]()
+    
     func addBall() {
         var frame = CGRect(origin: CGPoint.zero, size: ballSize)
         frame.origin.x = (bounds.size.width / 2) - (frame.width / 2)

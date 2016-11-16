@@ -29,7 +29,7 @@ class GameViewController: UIViewController {
             }
             
             if !pushCooldown{
-                gameView.pushBalls(angle: 270.0 * CGFloat(M_PI) / 180.0)//CGFloat.random(max: 360))
+                gameView.pushBalls(angle: CGFloat.random(max: 360) * CGFloat(M_PI) / 180.0)//CGFloat.random(max: 360))
                 pushCooldown = true
             }
         }
