@@ -13,7 +13,7 @@ class BallBehavior: UIDynamicBehavior, UICollisionBehaviorDelegate {
     // callback closures
 //    var recordBallHits : ((Void) -> Void)?
     var removeBreak: ((String) -> Void)?
-    var hitBottom : ((Void) -> Void)?
+    var hitBottom : ((UIView) -> Void)?
     
     var gravity : UIGravityBehavior = {
         let gravity = UIGravityBehavior()
@@ -94,8 +94,9 @@ class BallBehavior: UIDynamicBehavior, UICollisionBehaviorDelegate {
                 //            recordBallHits?()
                 removeBreak?(boundary)
             } else if boundary == "Bottom" {
+                
                 print("gotcha")
-                hitBottom?()
+                hitBottom?(item as! UIView)
             }
         }
     }

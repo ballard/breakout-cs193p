@@ -32,7 +32,6 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
     private var gravityValue: CGFloat? {
         get {
             return userDefaults.defaults!.object(
-//            return UserDefaultsSingleton.sharedInstance.defaults!.object(
                 forKey: UserDefaultsSingleton.Keys.Gravity) as? CGFloat ?? 0.0
         }
     }
@@ -81,11 +80,8 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
             ballBehavior.removeItem(item: ball)
             ball.removeFromSuperview()
         }
+        allGameBalls.removeAll()
         
-//        if let ball = gameBall {
-//            ballBehavior.removeItem(item: ball)
-//            ball.removeFromSuperview()
-//        }
         // fill
         isDoubleViewsBuilded = false
         addBreaks()
@@ -106,6 +102,9 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
     var breaksCount: Int = 0 {
         didSet{
             breaksCountLabel?.text = "Score: \(breaksCount)"
+            if breaksCount % 10 == 0, breaksCount > 0 {
+                addBall()
+            }
             
 //            if let ball = gameBall {
 //                print("ball velocity: \(ballBehavior.getItemVelocity(item: ball))")
@@ -233,10 +232,9 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
     // MARK - bottom setup
     func addBottomBoundary() {
         ballBehavior.collider.addBoundary(withIdentifier: PathNames.Bottom as NSCopying, from: CGPoint(x: bounds.minX, y: bounds.maxY), to: CGPoint(x: bounds.maxX, y: bounds.maxY))
-        ballBehavior.hitBottom = ({ [weak weakSelf = self] in
-            weakSelf?.breaksCount -= 1
-        })
-        
+//        ballBehavior.hitBottom = { [weak weakSelf = self] in
+//            weakSelf?.breaksCount -= 1
+//        }
     }
     // MARK - animator setup
     private lazy var animator : UIDynamicAnimator = {[unowned self] in
@@ -266,9 +264,13 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         return CGSize(width: size, height: size)
     }
     
-    public var allGameBalls = [UIView]()
-    
-//    var gameBall : UIView?
+    public var allGameBalls = [UIView]() //{
+//        didSet {
+//            if allGameBalls.count == 0 {
+//                gameOver?()
+//            }
+//        }
+//    }
         
     func addBall() {
         var frame = CGRect(origin: CGPoint.zero, size: ballSize)
@@ -280,18 +282,33 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         addSubview(ball)
         ballBehavior.addItem(item: ball)
         allGameBalls.append(ball)
+        
+        ballBehavior.hitBottom = { [weak weakSelf = self] ball in
+            weakSelf?.ballBehavior.removeItem(item: ball)
+            ball.removeFromSuperview()
+            weakSelf?.allGameBalls = (weakSelf?.allGameBalls)!.filter { storedBall in
+                return storedBall != ball
+            }
+            if weakSelf?.allGameBalls.count == 0 {
+                weakSelf?.gameOver?()
+            }
+        }
     }
     
     func pushBalls(angle: CGFloat) {
         _ = allGameBalls.map { ball in
-            let pushBehavior = UIPushBehavior(items: [ball], mode: .instantaneous)
-            pushBehavior.magnitude = 0.3
-            pushBehavior.angle = angle//CGFloat.random(max: 360)
-            pushBehavior.action = {[unowned pushBehavior] in
-                pushBehavior.dynamicAnimator!.removeBehavior(pushBehavior)
-            }
-            animator.addBehavior(pushBehavior)
+            self.push(ball: ball, forAngle: angle)
         }
+    }
+    
+    private func push(ball: UIView, forAngle angle: CGFloat) {
+        let pushBehavior = UIPushBehavior(items: [ball], mode: .instantaneous)
+        pushBehavior.magnitude = 0.3
+        pushBehavior.angle = angle//CGFloat.random(max: 360)
+        pushBehavior.action = {[unowned pushBehavior] in
+            pushBehavior.dynamicAnimator!.removeBehavior(pushBehavior)
+        }
+        animator.addBehavior(pushBehavior)
     }
     
     // MARK - real gravity setup
