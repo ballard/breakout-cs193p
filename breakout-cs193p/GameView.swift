@@ -91,7 +91,7 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         addBreaks()
         isDoubleViewsBuilded = true
         addBottomBoundary()
-        addBalls()
+        addBall()
         if breaksCountLabel != nil {
             self.bringSubview(toFront: breaksCountLabel!)
         } else {
@@ -106,6 +106,7 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
     var breaksCount: Int = 0 {
         didSet{
             breaksCountLabel?.text = "Score: \(breaksCount)"
+            
 //            if let ball = gameBall {
 //                print("ball velocity: \(ballBehavior.getItemVelocity(item: ball))")
 //            }
@@ -268,21 +269,17 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
     public var allGameBalls = [UIView]()
     
 //    var gameBall : UIView?
-    
-    let ballsCount = 3
-
-    func addBalls() {
-        for count in 0..<ballsCount {
-            var frame = CGRect(origin: CGPoint.zero, size: ballSize)
-            frame.origin.x = (bounds.size.width / 2) - (frame.width / 2) + ballSize.width * CGFloat(count)
-            frame.origin.y = bounds.midY
-            let ball = RoundedUIView(frame: frame)
-            ball.layer.cornerRadius = ball.frame.width / 2
-            ball.backgroundColor = UIColor.red
-            addSubview(ball)
-            ballBehavior.addItem(item: ball)
-            allGameBalls.append(ball)
-        }
+        
+    func addBall() {
+        var frame = CGRect(origin: CGPoint.zero, size: ballSize)
+        frame.origin.x = (bounds.size.width / 2) - (frame.width / 2)
+        frame.origin.y = bounds.midY
+        let ball = RoundedUIView(frame: frame)
+        ball.layer.cornerRadius = ball.frame.width / 2
+        ball.backgroundColor = UIColor.red
+        addSubview(ball)
+        ballBehavior.addItem(item: ball)
+        allGameBalls.append(ball)
     }
     
     func pushBalls(angle: CGFloat) {
