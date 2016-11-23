@@ -15,20 +15,12 @@ class BallBehavior: UIDynamicBehavior, UICollisionBehaviorDelegate {
     var removeBreak: ((String) -> Void)?
     var hitBottom : ((UIView) -> Void)?
     
-    var gravity : UIGravityBehavior = {
+    let gravity : UIGravityBehavior = {
         let gravity = UIGravityBehavior()
         gravity.magnitude = 0.0
         gravity.angle = 90 * CGFloat(M_PI) / 180
         return gravity
     }()
-    
-    func setMagnitude(magnitude: CGFloat) -> Void {
-        gravity.magnitude = magnitude
-    }
-    
-    func setAngle(angle: CGFloat) -> Void {
-        gravity.angle = angle
-    }
     
     let collider : UICollisionBehavior = {
         let collider = UICollisionBehavior()
@@ -37,47 +29,19 @@ class BallBehavior: UIDynamicBehavior, UICollisionBehaviorDelegate {
     }()
     
     func resetBallBehavior(){
-        for gravityItem in gravity.items {
-            gravity.removeItem(gravityItem)
-        }
-        for colliderItem in collider.items {
-            collider.removeItem(colliderItem)
-        }
-        for itemBehaviorItem in itemBehavior.items {
-            itemBehavior.removeItem(itemBehaviorItem)
-        }
-        
-        if let boundaryIdentifiers = collider.boundaryIdentifiers{
-            for boundaryIdentifier in boundaryIdentifiers {
-                collider.removeBoundary(withIdentifier: boundaryIdentifier)
-            }
-        }
+        _ = gravity.items.map { gravity.removeItem($0) }
+        _ = collider.items.map { collider.removeItem($0) }
+        _ = itemBehavior.items.map { itemBehavior.removeItem($0) }
+        _ = collider.boundaryIdentifiers?.map { collider.removeBoundary(withIdentifier: $0) }
     }
     
-    private let itemBehavior : UIDynamicItemBehavior = {
+    let itemBehavior : UIDynamicItemBehavior = {
         let itemBehavior = UIDynamicItemBehavior()
         itemBehavior.elasticity = 1
         itemBehavior.resistance = 0
         itemBehavior.allowsRotation = false
         return itemBehavior
     }()
-    
-    func getItemVelocity(item: UIDynamicItem) -> CGPoint {
-        return itemBehavior.linearVelocity(for: item)
-    }
-    
-    func setItemVelocity(item: UIDynamicItem, velocity: CGPoint) -> Void {
-        itemBehavior.addLinearVelocity(velocity, for: item)
-    }
-    
-    
-    func setElasticity(elasticity: CGFloat) -> Void {
-        itemBehavior.elasticity = elasticity
-    }
-    
-    func setAllowsRotation(allowsRotation: Bool) -> Void {
-        itemBehavior.allowsRotation = allowsRotation
-    }
     
     func addBarrier(path: UIBezierPath, named name: String){
         collider.removeBoundary(withIdentifier: name as NSCopying)

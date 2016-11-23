@@ -16,53 +16,9 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
     // + cooldown of tap gesture
     // - consider using of DI instead of singleton for user settings
     
-    lazy var userDefaults: UserDefaultsSingleton = {
-        return UserDefaultsSingleton.sharedInstance
+    lazy var settingsController : SettingsTableViewController = {
+       return SettingsTableViewController()
     }()
-    
-    // MARK - settings restore
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        ballBehavior.setMagnitude(magnitude: gravityValue!)
-        ballBehavior.setElasticity(elasticity: elasticityValue!)
-        ballBehavior.setAllowsRotation(allowsRotation: ballMoving!)
-        ballBehavior.setAngle(angle: 90 * CGFloat(M_PI) / 180)
-    }
-    
-    private var gravityValue: CGFloat? {
-        get {
-            return userDefaults.defaults!.object(
-                forKey: UserDefaultsSingleton.Keys.Gravity) as? CGFloat ?? 0.0
-        }
-    }
-    
-    private var elasticityValue: CGFloat? {
-        get {
-            return userDefaults.defaults!.object(
-                forKey: UserDefaultsSingleton.Keys.Elasticity) as? CGFloat ?? 1.0
-        }
-    }
-    
-    private var ballMoving: Bool? {
-        get {
-            return userDefaults.defaults!.object(
-                forKey: UserDefaultsSingleton.Keys.BallMoving) as? Bool ?? false
-        }
-    }
-    
-    private var realGravity: Bool? {
-        get {
-            return userDefaults.defaults!.object(
-                forKey: UserDefaultsSingleton.Keys.RealGravity) as? Bool ?? false
-        }
-    }
-    
-    private var bricksCount: Int {
-        get {
-            return userDefaults.defaults!.object(
-                forKey: UserDefaultsSingleton.Keys.BricksCount) as? Int ?? 30
-        }
-    }
 
     // MARK - clear the game for start
     func prepareForGameStart() {
@@ -163,9 +119,9 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         let breakWidth = ballSize.width * 2
         let breakHeight = ballSize.height
         
-        print("ball moving: \(ballMoving!)")
+        print("ball moving: \(settingsController.ballMoving)")
         
-        for i in 0..<bricksCount {
+        for i in 0..<settingsController.bricksCount {
             
             let heightScale = Int(i / 5)
             let widthScale = Int(i % 5 + 1)
@@ -192,7 +148,7 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         
         ballBehavior.removeBreak = ({[weak weakSelf = self] (deletingBreak: String) -> Void in
             
-            if let rotating = weakSelf?.ballMoving, rotating == true {
+            if let rotating = weakSelf?.settingsController.ballMoving, rotating == true {
                 weakSelf?.pushBalls(angle: CGFloat.random(max: 360) * CGFloat(M_PI) / 180)
             }
             
@@ -304,7 +260,7 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
     private let motionManager = CMMotionManager()
     
     private func updateRealGravity(){
-        if realGravity! {
+        if settingsController.realGravity {
             if motionManager.isAccelerometerAvailable && !motionManager.isAccelerometerActive {
                 motionManager.accelerometerUpdateInterval = 0.25
                 motionManager.startAccelerometerUpdates(to: OperationQueue.main) {

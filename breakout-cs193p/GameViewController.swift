@@ -85,13 +85,8 @@ class GameViewController: UIViewController {
             gameView.animating = true
             
             _ = gameView.allGameBalls.map { ball in
-                gameView.ballBehavior.setItemVelocity(item: ball, velocity: ballVelocity )
+                gameView.ballBehavior.itemBehavior.addLinearVelocity(ballVelocity, for: ball)
             }
-            
-//            if let ball = gameView.gameBall{
-//                gameView.ballBehavior.setItemVelocity(item: ball, velocity: ballVelocity )
-//            }
-            
             isGamePaused = false
         }
     }
@@ -103,12 +98,8 @@ class GameViewController: UIViewController {
         isGamePaused = true
         
         _ = gameView.allGameBalls.map { ball in
-            ballVelocity = gameView.ballBehavior.getItemVelocity(item: ball)
+            ballVelocity = gameView.ballBehavior.itemBehavior.linearVelocity(for: ball)
         }
-        
-//        if let ball = gameView.gameBall{
-//            ballVelocity = gameView.ballBehavior.getItemVelocity(item: ball)
-//        }
         gameView.animating = false
     }
     

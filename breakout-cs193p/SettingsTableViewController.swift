@@ -10,176 +10,114 @@ import UIKit
 
 class SettingsTableViewController: UITableViewController {
     
-    @IBOutlet weak var bricksCountSegmentedController: UISegmentedControl!
-    @IBAction func setBricksCount(_ sender: UISegmentedControl) {
+    // MARK - constants
+    struct Keys {
+        static let BricksCount = "Breakout.BricksCount"
+        static let Gravity = "Breakout.Gravity"
+        static let Elasticity = "Breakout.Elasticity"
+        static let BallMoving = "Breakout.BallMoving"
+        static let RealGravity = "Breakout.RealGravity"
+    }
+    
+    // MARK - settings init
+    let settings = UserDefaults.standard
+    
+    // MARK - bricks count
+    @IBOutlet weak var bricksCountSegmentedControlOutlet: UISegmentedControl! {
+        didSet {
+            bricksCountSegmentedControlOutlet.selectedSegmentIndex = (bricksCount / 10) - 1
+        }
+    }
+    
+    @IBAction func bricksCountSegmentedControlAction(_ sender: UISegmentedControl) {
         bricksCount = (sender.selectedSegmentIndex + 1) * 10
     }
-    private var bricksCount: Int {
+    
+    var bricksCount: Int {
         get {
-            return UserDefaultsSingleton.sharedInstance.defaults!.object(
-                forKey: UserDefaultsSingleton.Keys.BricksCount) as? Int ?? 30
+            return settings.object(forKey: Keys.BricksCount) as? Int ?? 30
         }
         set{
-            UserDefaultsSingleton.sharedInstance.defaults!.set(
-                newValue, forKey: UserDefaultsSingleton.Keys.BricksCount)
+            settings.set(newValue, forKey: Keys.BricksCount)
         }
     }
     
-    @IBOutlet weak var gravitySlider: UISlider!
-    @IBAction func setGravity(_ sender: UISlider) {
-        gravity = CGFloat(sender.value)
-        print("gravity saved to: \(gravity)")
+    // MARK - gravity
+    @IBOutlet weak var gravitySliderOutlet: UISlider! {
+        didSet {
+            gravitySliderOutlet.value = Float(gravity)
+        }
     }
-    private var gravity: CGFloat {
+    
+    @IBAction func gravitySliderAction(_ sender: UISlider) {
+        gravity = CGFloat(sender.value)
+    }
+    
+    var gravity: CGFloat {
         get {
-            return UserDefaultsSingleton.sharedInstance.defaults!.object(
-                forKey: UserDefaultsSingleton.Keys.Gravity) as? CGFloat ?? 0.0
+            return settings.object(forKey: Keys.Gravity) as? CGFloat ?? 0.0
         }
         set{
-            UserDefaultsSingleton.sharedInstance.defaults!.set(
-                newValue, forKey: UserDefaultsSingleton.Keys.Gravity)
+            settings.set(newValue, forKey: Keys.Gravity)
         }
     }
-    @IBOutlet weak var elasticitySlider: UISlider!
-    @IBAction func setElasticity(_ sender: UISlider) {
+    
+    // MARK - elasticity
+    @IBOutlet weak var elasticitySliderOutlet: UISlider! {
+        didSet {
+            elasticitySliderOutlet.value = Float(elasticity)
+        }
+    }
+    @IBAction func elasticitySliderAction(_ sender: UISlider) {
         elasticity = CGFloat(sender.value)
     }
-    private var elasticity: CGFloat {
+    
+    var elasticity: CGFloat {
         get {
-            return UserDefaultsSingleton.sharedInstance.defaults!.object(
-                forKey: UserDefaultsSingleton.Keys.Elasticity) as? CGFloat ?? 1.0
+            return settings.object(forKey: Keys.Elasticity) as? CGFloat ?? 1.0
         }
         set{
-            UserDefaultsSingleton.sharedInstance.defaults!.set(
-                newValue, forKey: UserDefaultsSingleton.Keys.Elasticity)
+            settings.set(newValue, forKey: Keys.Elasticity)
         }
     }
     
-    @IBOutlet weak var ballSwitch: UISwitch!
-    @IBAction func setBallMoving(_ sender: UISwitch) {
+    // MARK - ball moving
+    @IBOutlet weak var ballMovingOutlet: UISwitch! {
+        didSet {
+            ballMovingOutlet.isOn = ballMoving
+        }
+    }
+    
+    @IBAction func ballMovingAction(_ sender: UISwitch) {
         ballMoving = sender.isOn
     }
-    private var ballMoving: Bool {
+    
+    var ballMoving: Bool {
         get {
-            return UserDefaultsSingleton.sharedInstance.defaults!.object(
-                forKey: UserDefaultsSingleton.Keys.BallMoving) as? Bool ?? false
+            return settings.object(forKey: Keys.BallMoving) as? Bool ?? false
         }
         set{
-            UserDefaultsSingleton.sharedInstance.defaults!.set(
-                newValue, forKey: UserDefaultsSingleton.Keys.BallMoving)
+            settings.set(newValue, forKey: Keys.BallMoving)
         }
     }
     
-    @IBOutlet weak var realGravitySwitch: UISwitch!
-    @IBAction func setRealGravity(_ sender: UISwitch) {
+    // MARK - real gravity
+    @IBOutlet weak var realGravitySwitchOutlet: UISwitch! {
+        didSet {
+            realGravitySwitchOutlet.isOn = realGravity
+        }
+    }
+    
+    @IBAction func realGravitySwitchAction(_ sender: UISwitch) {
         realGravity = sender.isOn
     }
-    private var realGravity: Bool {
+    
+    var realGravity: Bool {
         get {
-            return UserDefaultsSingleton.sharedInstance.defaults!.object(
-                forKey: UserDefaultsSingleton.Keys.RealGravity) as? Bool ?? false
+            return settings.object(forKey: Keys.RealGravity) as? Bool ?? false
         }
         set{
-            UserDefaultsSingleton.sharedInstance.defaults!.set(
-                newValue, forKey: UserDefaultsSingleton.Keys.RealGravity)
+            settings.set(newValue, forKey: Keys.RealGravity)
         }
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        bricksCountSegmentedController.selectedSegmentIndex = (bricksCount / 10) - 1
-        gravitySlider.value = Float(gravity)
-        elasticitySlider.value = Float(elasticity)
-        ballSwitch.isOn = ballMoving
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    // MARK: - Table view data source
-
-//    override func numberOfSections(in tableView: UITableView) -> Int {
-//        // #warning Incomplete implementation, return the number of sections
-//        return 1
-//    }
-//
-//    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        // #warning Incomplete implementation, return the number of rows
-//        return 3
-//    }
-    
-//    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        if section == 0 {
-//            return "Game Settings"
-//        }
-//        return ""
-//    }
-
-    /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
-        return cell
-    }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="F70-th-He8">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="F70-th-He8">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -20,6 +23,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SAy-Vp-4XD" customClass="GameView" customModule="breakout_cs193p" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="590"/>
                                 <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                         </subviews>
@@ -73,22 +77,24 @@
                                         <rect key="frame" x="0.0" y="56" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rAb-df-znU" id="EQb-iJ-4fb">
-                                            <frame key="frameInset" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bricks count" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s6H-hj-5bD">
+                                                    <rect key="frame" x="8" y="12.5" width="95.5" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="0sV-br-Jes">
+                                                    <rect key="frame" x="111.5" y="8" width="247.5" height="29"/>
                                                     <segments>
                                                         <segment title="10"/>
                                                         <segment title="20"/>
                                                         <segment title="30"/>
                                                     </segments>
                                                     <connections>
-                                                        <action selector="setBricksCount:" destination="Me7-5Z-QFO" eventType="valueChanged" id="ijd-qq-8bW"/>
+                                                        <action selector="bricksCountSegmentedControlAction:" destination="Me7-5Z-QFO" eventType="valueChanged" id="USh-IA-dsD"/>
                                                     </connections>
                                                 </segmentedControl>
                                             </subviews>
@@ -105,15 +111,17 @@
                                         <rect key="frame" x="0.0" y="100" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ds2-RQ-m1S" id="ZaQ-FA-wB0">
-                                            <frame key="frameInset" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.75" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="hdq-2g-Qt9">
+                                                    <rect key="frame" x="68.5" y="7" width="300.5" height="31"/>
                                                     <connections>
-                                                        <action selector="setGravity:" destination="Me7-5Z-QFO" eventType="valueChanged" id="XUJ-Mr-NA2"/>
+                                                        <action selector="gravitySliderAction:" destination="Me7-5Z-QFO" eventType="valueChanged" id="F8i-Yr-qB6"/>
                                                     </connections>
                                                 </slider>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gravity" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CWL-6g-Kc2">
+                                                    <rect key="frame" x="8" y="12" width="54.5" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -132,17 +140,19 @@
                                         <rect key="frame" x="0.0" y="144" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="b8p-vm-LmA" id="4Le-HK-wZN">
-                                            <frame key="frameInset" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Elasticity" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rkd-vc-qTL">
+                                                    <rect key="frame" x="8" y="12" width="68.5" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="6yQ-ol-vYe">
+                                                    <rect key="frame" x="77.5" y="7" width="291.5" height="31"/>
                                                     <connections>
-                                                        <action selector="setElasticity:" destination="Me7-5Z-QFO" eventType="valueChanged" id="aVA-2x-ggr"/>
+                                                        <action selector="elasticitySliderAction:" destination="Me7-5Z-QFO" eventType="valueChanged" id="8L3-bG-K2G"/>
                                                     </connections>
                                                 </slider>
                                             </subviews>
@@ -159,15 +169,17 @@
                                         <rect key="frame" x="0.0" y="188" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="izo-3h-Ur6" id="il0-z4-u65">
-                                            <frame key="frameInset" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gbo-2y-q4V">
+                                                    <rect key="frame" x="318" y="6.5" width="51" height="31"/>
                                                     <connections>
-                                                        <action selector="setBallMoving:" destination="Me7-5Z-QFO" eventType="valueChanged" id="fJh-HC-kDS"/>
+                                                        <action selector="ballMovingAction:" destination="Me7-5Z-QFO" eventType="valueChanged" id="1h4-Fv-X8b"/>
                                                     </connections>
                                                 </switch>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ball Additional Moving" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hwZ-T8-rrf">
+                                                    <rect key="frame" x="8" y="11.5" width="168.5" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -185,15 +197,17 @@
                                         <rect key="frame" x="0.0" y="232" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hMi-cZ-t6g" id="DXj-98-Nog">
-                                            <frame key="frameInset" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qnA-Ov-QH8">
+                                                    <rect key="frame" x="318" y="6.5" width="51" height="31"/>
                                                     <connections>
-                                                        <action selector="setRealGravity:" destination="Me7-5Z-QFO" eventType="valueChanged" id="9jm-79-xas"/>
+                                                        <action selector="realGravitySwitchAction:" destination="Me7-5Z-QFO" eventType="valueChanged" id="WFG-kZ-rNH"/>
                                                     </connections>
                                                 </switch>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use Real Gravity" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7we-lJ-kQL">
+                                                    <rect key="frame" x="8" y="11.5" width="126" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -217,11 +231,11 @@
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Settings" id="nbB-bv-JW4"/>
                     <connections>
-                        <outlet property="ballSwitch" destination="Gbo-2y-q4V" id="EJJ-mv-SfY"/>
-                        <outlet property="bricksCountSegmentedController" destination="0sV-br-Jes" id="5Bs-Zu-TWi"/>
-                        <outlet property="elasticitySlider" destination="6yQ-ol-vYe" id="gqp-Xz-fYV"/>
-                        <outlet property="gravitySlider" destination="hdq-2g-Qt9" id="GJ8-Na-Moh"/>
-                        <outlet property="realGravitySwitch" destination="qnA-Ov-QH8" id="hYB-kz-5Hy"/>
+                        <outlet property="ballMovingOutlet" destination="Gbo-2y-q4V" id="IwT-UV-nAj"/>
+                        <outlet property="bricksCountSegmentedControlOutlet" destination="0sV-br-Jes" id="n0o-j1-Yt8"/>
+                        <outlet property="elasticitySliderOutlet" destination="6yQ-ol-vYe" id="82K-Yn-pu5"/>
+                        <outlet property="gravitySliderOutlet" destination="hdq-2g-Qt9" id="tMV-I0-xvG"/>
+                        <outlet property="realGravitySwitchOutlet" destination="qnA-Ov-QH8" id="v8q-8G-V31"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HIW-2w-3RE" userLabel="First Responder" sceneMemberID="firstResponder"/>

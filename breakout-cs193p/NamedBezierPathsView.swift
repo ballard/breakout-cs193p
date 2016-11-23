@@ -13,7 +13,7 @@ class NamedBezierPathsView: UIView
     var bezierPaths = [String:UIBezierPath]() { didSet { setNeedsDisplay() } }
     
     override func draw(_ rect: CGRect) {
-        for (name, path) in bezierPaths {
+        _ = bezierPaths.map { (name, path) in
             if name == "Plate" {
                 UIColor.green.setFill()
                 path.lineWidth = 0.0
@@ -25,6 +25,18 @@ class NamedBezierPathsView: UIView
             UIColor.black.setStroke()
             path.stroke()
         }
+//        for (name, path) in bezierPaths {
+//            if name == "Plate" {
+//                UIColor.green.setFill()
+//                path.lineWidth = 0.0
+//            } else {
+//                UIColor.purple.setFill()
+//                path.lineWidth = 2.0
+//            }
+//            path.fill()
+//            UIColor.black.setStroke()
+//            path.stroke()
+//        }
     }
     
     struct DoubleView {
