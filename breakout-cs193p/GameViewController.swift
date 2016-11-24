@@ -56,8 +56,6 @@ class GameViewController: UIViewController {
         let alertController = UIAlertController(title: "Game Over!", message: "Press OK to restart the game", preferredStyle: .alert)
         
         let OKAction = UIAlertAction(title: "OK", style: .default) { [weak weakSelf = self] (action:UIAlertAction!) in
-//            print("Game restarted!");
-//            print("place new bricks and ball here")
             weakSelf?.startGame()
         }
         alertController.addAction(OKAction)
@@ -83,8 +81,7 @@ class GameViewController: UIViewController {
             startGame()
         } else {
             gameView.animating = true
-            
-            _ = gameView.allGameBalls.map { ball in
+            _ = gameView.balls.map { ball in
                 gameView.ballBehavior.itemBehavior.addLinearVelocity(ballVelocity, for: ball)
             }
             isGamePaused = false
@@ -96,8 +93,7 @@ class GameViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         isGamePaused = true
-        
-        _ = gameView.allGameBalls.map { ball in
+        _ = gameView.balls.map { ball in
             ballVelocity = gameView.ballBehavior.itemBehavior.linearVelocity(for: ball)
         }
         gameView.animating = false

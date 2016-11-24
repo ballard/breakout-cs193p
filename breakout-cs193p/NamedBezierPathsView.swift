@@ -25,18 +25,6 @@ class NamedBezierPathsView: UIView
             UIColor.black.setStroke()
             path.stroke()
         }
-//        for (name, path) in bezierPaths {
-//            if name == "Plate" {
-//                UIColor.green.setFill()
-//                path.lineWidth = 0.0
-//            } else {
-//                UIColor.purple.setFill()
-//                path.lineWidth = 2.0
-//            }
-//            path.fill()
-//            UIColor.black.setStroke()
-//            path.stroke()
-//        }
     }
     
     struct DoubleView {
@@ -56,7 +44,7 @@ class NamedBezierPathsView: UIView
     }
     
     private func addSubViews(_: [String : DoubleView]) {
-        for (_, doubleView) in doubleViews {
+        _ = doubleViews.map { (_, doubleView) in
             if doubleView.hits {
                 doubleView.view.backgroundColor = UIColor.blue
             } else {

@@ -32,11 +32,11 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         ballBehavior.resetBallBehavior()
         breaksCount = 0
         
-        _ = allGameBalls.map { ball in
-            ballBehavior.removeItem(item: ball)
-            ball.removeFromSuperview()
-        }
-        allGameBalls.removeAll()
+//        _ = allGameBalls.map { ball in
+//            ballBehavior.removeItem(item: ball)
+//            ball.removeFromSuperview()
+//        }
+//        allGameBalls.removeAll()
         // fill
         isDoubleViewsBuilded = false
         addBreaks()
@@ -145,54 +145,19 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
             let doubleView = DoubleView(hits: hits, view: view, path: path)
             doubleViews[breakName] = doubleView
         }
-        
-        ballBehavior.removeBreak = ({[weak weakSelf = self] (deletingBreak: String) -> Void in
-            
-            if let rotating = weakSelf?.settingsController.ballMoving, rotating == true {
-                weakSelf?.pushBalls(angle: CGFloat.random(max: 360) * CGFloat(M_PI) / 180)
-            }
-            
-            if let brick = weakSelf?.doubleViews[deletingBreak] {
-                
-                if !brick.hits {
-                    weakSelf?.breaksCount += 1
-                    UIView.transition(
-                        with: brick.view,
-                        duration: 0.5,
-                        options: [.transitionFlipFromTop,.curveLinear],
-                        animations: nil,
-                        completion: { completion in
-                            weakSelf?.doubleViews[deletingBreak]!.view.removeFromSuperview()
-//                            weakSelf?.doubleViews[deletingBreak] = nil
-                            _ = weakSelf?.doubleViews.removeValue(forKey: deletingBreak)
-//                            print(weakSelf?.doubleViews.count)
-                            if weakSelf?.doubleViews.count == 0 {
-                                weakSelf?.gameOver?()
-                            }
-                        }
-                    )
-                } else {
-                    weakSelf?.doubleViews[deletingBreak]?.hits = false
-                    weakSelf?.doubleViews[deletingBreak]?.view.backgroundColor = UIColor.purple
-                    weakSelf?.ballBehavior.addBarrier(path: brick.path, named: deletingBreak)
-                    print("double brick hitted, named: \(deletingBreak)")
-                }
-            }
-        })
     }
+    
     // MARK - bottom setup
     func addBottomBoundary() {
         ballBehavior.collider.addBoundary(withIdentifier: PathNames.Bottom as NSCopying, from: CGPoint(x: bounds.minX, y: bounds.maxY), to: CGPoint(x: bounds.maxX, y: bounds.maxY))
-//        ballBehavior.hitBottom = { [weak weakSelf = self] in
-//            weakSelf?.breaksCount -= 1
-//        }
     }
+    
     // MARK - animator setup
     private lazy var animator : UIDynamicAnimator = {[unowned self] in
         let animator = UIDynamicAnimator(referenceView: self)
         animator.delegate = self
         return animator
-        }()
+    }()
     
     var animating : Bool = false {
         didSet{
@@ -206,7 +171,47 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
     }
     
     // MARK - ball setup
-    let ballBehavior = BallBehavior()
+    lazy var ballBehavior : BallBehavior = {
+        let ballBehavior = BallBehavior()
+        ballBehavior.removeBreak = ({[weak weakSelf = self] (deletingBreak: String) -> Void in
+            if let rotating = weakSelf?.settingsController.ballMoving, rotating == true {
+                weakSelf?.pushBalls(angle: CGFloat.random(max: 360) * CGFloat(M_PI) / 180)
+            }
+            if let brick = weakSelf?.doubleViews[deletingBreak] {
+                if !brick.hits {
+                    weakSelf?.breaksCount += 1
+                    UIView.transition(
+                        with: brick.view,
+                        duration: 0.5,
+                        options: [.transitionFlipFromTop,.curveLinear],
+                        animations: nil,
+                        completion: { completion in
+                            weakSelf?.doubleViews[deletingBreak]!.view.removeFromSuperview()
+                            _ = weakSelf?.doubleViews.removeValue(forKey: deletingBreak)
+                            if weakSelf?.doubleViews.count == 0 {
+                                weakSelf?.gameOver?()
+                            }})
+                } else {
+                    weakSelf?.doubleViews[deletingBreak]?.hits = false
+                    weakSelf?.doubleViews[deletingBreak]?.view.backgroundColor = UIColor.purple
+                    weakSelf?.ballBehavior.addBarrier(path: brick.path, named: deletingBreak)                }
+            }})
+        ballBehavior.hitBottom = { [weak weakSelf = self] ball in
+            weakSelf?.ballBehavior.removeItem(item: ball)
+            ball.removeFromSuperview()
+            if weakSelf?.balls.count == 0 {
+                weakSelf?.gameOver?()
+                
+            }
+//            weakSelf?.allGameBalls = (weakSelf?.allGameBalls)!.filter { storedBall in
+//                return storedBall != ball
+//            }
+//            if weakSelf?.allGameBalls.count == 0 {
+//                weakSelf?.gameOver?()
+//            }
+        }
+        return ballBehavior
+    }()
     
     let ballScale = 10
     
@@ -215,7 +220,11 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         return CGSize(width: size, height: size)
     }
     
-    public var allGameBalls = [UIView]()
+//    var allGameBalls = [RoundedUIView]()
+    
+    var balls: [RoundedUIView] {
+        get { return ballBehavior.collider.items.filter{$0 is RoundedUIView}.map{$0 as! RoundedUIView} }
+    }
     
     func addBall() {
         var frame = CGRect(origin: CGPoint.zero, size: ballSize)
@@ -226,22 +235,11 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         ball.backgroundColor = UIColor.red
         addSubview(ball)
         ballBehavior.addItem(item: ball)
-        allGameBalls.append(ball)
-        
-        ballBehavior.hitBottom = { [weak weakSelf = self] ball in
-            weakSelf?.ballBehavior.removeItem(item: ball)
-            ball.removeFromSuperview()
-            weakSelf?.allGameBalls = (weakSelf?.allGameBalls)!.filter { storedBall in
-                return storedBall != ball
-            }
-            if weakSelf?.allGameBalls.count == 0 {
-                weakSelf?.gameOver?()
-            }
-        }
+//        allGameBalls.append(ball)
     }
     
     func pushBalls(angle: CGFloat) {
-        _ = allGameBalls.map { ball in
+        _ = balls.map { ball in
             self.push(ball: ball, forAngle: angle)
         }
     }
@@ -259,13 +257,12 @@ class GameView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
     // MARK - real gravity setup
     private let motionManager = CMMotionManager()
     
-    private func updateRealGravity(){
+    private func updateRealGravity() {
         if settingsController.realGravity {
             if motionManager.isAccelerometerAvailable && !motionManager.isAccelerometerActive {
                 motionManager.accelerometerUpdateInterval = 0.25
                 motionManager.startAccelerometerUpdates(to: OperationQueue.main) {
                     [unowned self ] (data, error) in
-                    
                     if self.ballBehavior.dynamicAnimator != nil{
                         if var dx = data?.acceleration.x, var dy = data?.acceleration.y {
                             switch UIDevice.current.orientation {

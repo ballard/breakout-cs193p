@@ -15,14 +15,14 @@ class BallBehavior: UIDynamicBehavior, UICollisionBehaviorDelegate {
     var removeBreak: ((String) -> Void)?
     var hitBottom : ((UIView) -> Void)?
     
-    let gravity : UIGravityBehavior = {
+    lazy var gravity : UIGravityBehavior = {
         let gravity = UIGravityBehavior()
         gravity.magnitude = 0.0
         gravity.angle = 90 * CGFloat(M_PI) / 180
         return gravity
     }()
     
-    let collider : UICollisionBehavior = {
+    lazy var collider : UICollisionBehavior = {
         let collider = UICollisionBehavior()
         collider.translatesReferenceBoundsIntoBoundary = true
         return collider
@@ -35,7 +35,7 @@ class BallBehavior: UIDynamicBehavior, UICollisionBehaviorDelegate {
         _ = collider.boundaryIdentifiers?.map { collider.removeBoundary(withIdentifier: $0) }
     }
     
-    let itemBehavior : UIDynamicItemBehavior = {
+    lazy var itemBehavior : UIDynamicItemBehavior = {
         let itemBehavior = UIDynamicItemBehavior()
         itemBehavior.elasticity = 1
         itemBehavior.resistance = 0
@@ -58,8 +58,6 @@ class BallBehavior: UIDynamicBehavior, UICollisionBehaviorDelegate {
                 //            recordBallHits?()
                 removeBreak?(boundary)
             } else if boundary == "Bottom" {
-                
-                print("gotcha")
                 hitBottom?(item as! UIView)
             }
         }
